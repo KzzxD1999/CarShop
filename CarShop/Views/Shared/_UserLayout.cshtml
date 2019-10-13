@@ -1,0 +1,31 @@
+﻿<!DOCTYPE html>
+<html lang="uk" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Адмін панель</title>
+    <link href="~/css/AdminPanel.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="grid">
+        <header>
+            <h1>Header</h1>
+        </header>
+        <nav>
+            <ul>
+                <li><a asp-action="CreateCategory" asp-controller="Car">Створити категорію</a></li>
+                <li><a asp-action="CreateCar" asp-controller="Car">Додати машину</a></li>
+            </ul>
+        </nav>
+
+        <main>
+            @RenderBody()
+        </main>
+
+
+        <footer>@DateTime.Now - Зараз</footer>
+    </div>
+
+
+</body>
+</html>

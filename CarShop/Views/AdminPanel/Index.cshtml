@@ -1,0 +1,14 @@
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<h1>Всі категорії</h1>
+@foreach (var item in Model)
+{
+    <ol style="margin-left:50px;"><li>@item.Category.Name</li></ol>
+}
+<h1>Всі машини</h1>
+@foreach (var item in Model)
+{
+    <ol style="margin-left:50px;"><li>@item.Name</li></ol>
+}

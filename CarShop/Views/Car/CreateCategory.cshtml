@@ -1,0 +1,16 @@
+﻿@{
+
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<h1>Створити категорію</h1>
+
+<form method="post" asp-action="CreateCategory" asp-controller="Car"> 
+    <div>
+        <h2>Ім'я</h2>
+        <input type="text" name="Name"/>
+    </div>
+    <div>
+        <input type="submit"/>
+    </div>
+</form>

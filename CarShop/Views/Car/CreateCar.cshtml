@@ -1,0 +1,52 @@
+﻿@{ 
+      Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+    <form asp-action="CreateCar" asp-controller="Car" method="post">
+
+        <div>
+            <h2>Назва машини</h2>
+            <input type="text" name="Name" />
+        </div>
+
+        <div>
+            <select name="CategoryId">
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.Name</option>
+                }
+
+            </select>
+        </div>
+        <div>
+            <h2>Вага машини</h2>
+            <input type="number" name="Weight" />
+        </div>
+
+
+        <div>
+            <h2>Колір машини</h2>
+            <input type="number" name="Color" />
+        </div>
+
+        <div>
+            <h2>Висота машини</h2>
+            <input type="number" name="Height" />
+        </div>
+        <div>
+            <h2>Ширина машини</h2>
+            <input type="number" name="Width" />
+        </div>
+        <div>
+            <h2>Назва двигуна</h2>
+            <input type="text" name="EngineName" />
+        </div>
+        <div>
+            <h2>Кіньські сили</h2>
+            <input type="number" name="Horsepower"/>
+        </div>
+
+        <div>
+            <input type="submit"/>
+        </div>
+    </form>
