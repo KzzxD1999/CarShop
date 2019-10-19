@@ -12,9 +12,12 @@
         "main main"
         "footer footer"
 }
-.container{
-    max-width:1100px;
-    margin:0 auto;
+.container {
+    margin-right: auto; /* 1 */
+    margin-left: auto; /* 1 */
+    max-width: 1200px; /* 2 */
+    padding-right: 10px; /* 3 */
+    padding-left: 10px; /* 3 */
 }
 header{
     background:green;
@@ -43,7 +46,21 @@ footer {
 }
 main {
     background: #ff6a00;
-    
-    width: 100vw;
+    /*  width: 100vw;*/
     grid-area: main;
+}
+
+/*Index cars*/
+.all-cars{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    grid-gap:3rem;
+
+}
+.item-car{
+    width:250px;
+    height:auto;
+}
+.car-img{
+    width:250px;
 }

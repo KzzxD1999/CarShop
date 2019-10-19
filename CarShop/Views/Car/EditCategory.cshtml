@@ -1,0 +1,11 @@
+﻿@model CarShop.BL.Models.Category
+
+
+<form asp-action="EditCategory" method="post">
+    <h2>Назва</h2>
+    <input asp-for="Name" value="@Model.Name" />
+    <div>
+        <input type="submit" value="Змінити"/>
+    </div>
+</form>
+

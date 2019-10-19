@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using CarShop.Models;
 using Microsoft.EntityFrameworkCore;
+using CarShop.BL.ViewModel;
 
 namespace CarShop.Controllers
 {
@@ -20,8 +21,14 @@ namespace CarShop.Controllers
         }
         public IActionResult Index()
         {
-            var cars = context.Cars.Include(x => x.Category).ToList();
-            return View(cars);
+            CarCategoryViewModel model = new CarCategoryViewModel
+            {
+                Cars = context.Cars.ToList(),
+                Categories = context.Categories.ToList(),
+
+            };
+            return View(model);
         }
+
     }
 }

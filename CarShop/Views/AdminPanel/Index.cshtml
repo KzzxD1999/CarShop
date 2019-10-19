@@ -1,14 +1,48 @@
-﻿@{
+﻿@model CarShop.BL.ViewModel.CarCategoryViewModel
+@{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 
 }
 <h1>Всі категорії</h1>
-@foreach (var item in Model)
+@foreach (var item in Model.Categories)
 {
-    <ol style="margin-left:50px;"><li>@item.Category.Name</li></ol>
+    if (item == null)
+    {
+        <h1>Немає категорій</h1>
+    }
+    else
+    {
+
+    <div>
+        <h4><b>@item.Name</b></h4>
+        <a type="submit" asp-route-name="@item.Name" asp-route-id="@item.Id" asp-controller="Car" asp-action="DeleteCategory">Видалити</a>
+        <a asp-route-id="@item.Id" asp-controller="Car" asp-action="EditCategory">Редагувати</a>
+
+    </div>
+    }
+
 }
 <h1>Всі машини</h1>
-@foreach (var item in Model)
+@if (Model.Cars.Count() < 0)
 {
-    <ol style="margin-left:50px;"><li>@item.Name</li></ol>
+    <h1>Немає машин</h1>
 }
+else
+{
+    @foreach (var item in Model.Cars)
+    {
+<div>
+    <h4>
+        <b>
+            <a asp-action="DetailsCar" asp-controller="Car" asp-route-id="@item.Id" asp-route-name="@item.Name">
+                @item.Name
+            </a>
+            <p> <a asp-action="DeleteCar" asp-controller="car" asp-route-id="@item.Id" asp-route-name="@item.Name">Видалити</a></p>
+            <p>        <a asp-route-id="@item.Id" asp-controller="Car" asp-action="Editcar">Редагувати</a></p>
+        
+        </b>
+    </h4>
+</div>
+      }
+}
+

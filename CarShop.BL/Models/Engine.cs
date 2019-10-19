@@ -6,6 +6,7 @@
         public string Name { get; set; }
         public int Horsepower { get; set; }
 
+        /*
         public Engine(string name, int horsepower)
         {
             if (string.IsNullOrWhiteSpace(name))
@@ -16,5 +17,6 @@
             Name = name;
             Horsepower = horsepower;
         }
+        */
     }
 }

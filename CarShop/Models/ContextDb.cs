@@ -16,7 +16,7 @@ namespace CarShop.Models
 
         public DbSet<Car> Cars { get; set; }
         public DbSet<Category> Categories { get; set; }
-
+        public DbSet<Engine> Engines { get; set; }
 
     }
 }

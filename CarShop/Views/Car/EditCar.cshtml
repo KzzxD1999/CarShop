@@ -1,0 +1,69 @@
+﻿@model CarShop.BL.ViewModel.EditCarViewModel
+
+
+    <form asp-action="EditCar" asp-controller="Car" asp-route-id="@Model.Car.Id" enctype="multipart/form-data">
+        <div>
+            <input hidden asp-for="Car.Id" value="@Model.Car.Id"/>
+        </div>
+        <div>
+            <input asp-for="Car.Name" value="@Model.Car.Name" />
+        </div>
+        <div>
+            <input asp-for="Car.Text" value="@Model.Car.Text" />
+        </div>
+        <div>
+            <input asp-for="Car.Color" value="@Model.Car.Color" />
+        </div>
+        <div>
+            <input asp-for="Car.Height" value="@Model.Car.Height" />
+        </div>
+        <div>
+            <input asp-for="Car.MaxSpeed" value="@Model.Car.MaxSpeed" />
+        </div>
+        <div>
+            <input asp-for="Car.Price" value="@Model.Car.Price" />
+        </div>
+        <div>
+            <input asp-for="Car.Weight" value="@Model.Car.Weight" />
+        </div>
+        <div>
+            <input asp-for="Car.Engine.Name" value="@Model.Car.Engine.Name" />
+        </div>
+        <div>
+            <input asp-for="Car.Engine.Horsepower" value="@Model.Car.Engine.Horsepower" />
+        </div>
+
+        <div>
+            <input asp-for="Car.Width" value="@Model.Car.Width" />
+        </div>
+        <select asp-for="Car.Category.Name" asp-items="@Model.Category">
+        </select>
+
+        <div>
+            <h3>Мала картинка</h3>
+            <img sr="@Model.Car.ImagePath" width="150" height="150" />
+        </div>
+        <div>
+            <h3>Велика картинка</h3>
+            <img sr="@Model.Car.BigImagePath" width="150" height="150" />
+        </div>
+
+        <div>
+            <h3>Мала картинка</h3>
+            <input type="file" asp-for="Car.ImagePath" />
+        </div>
+
+        <div>
+            <h3>Мала картинка</h3>
+            <input type="file" asp-for="Car.BigImagePath" />
+        </div>
+
+        <div>
+            <input type="submit" value="Редагувати" />
+        </div>
+
+
+
+
+
+    </form>
