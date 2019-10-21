@@ -9,7 +9,6 @@ namespace CarShop.BL.Models
     public class Car
     {
         public int Id { get; set; }
-        [Required]
         public string Name { get; set; }
         public string Text { get; set; }
         public int CategoryId { get; set; }
@@ -20,10 +19,10 @@ namespace CarShop.BL.Models
         public string ImagePath { get; set; }
         public string BigImagePath { get; set; }
         public int EngineId { get; set; }
-        [NotNull]
         public Engine Engine { get; set; }
         public int Weight { get; set; }
         public double Height { get; set; }
         public double Width { get; set; }
+    
     }
 }

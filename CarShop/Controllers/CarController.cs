@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Pipelines;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CarShop.Controllers
@@ -29,6 +30,11 @@ namespace CarShop.Controllers
         [Route("create-category")]
         public IActionResult CreateCategory()
         {
+            var categoriers = context.Categories.ToList();
+            if (categoriers.Count() <= 0)
+            {
+                TempData["Messages"] = true;
+            }
             return View();
         }
         [Route("create-category")]
@@ -123,7 +129,7 @@ namespace CarShop.Controllers
             }
 
         }
-        public async Task<IActionResult> EditCar(int? id)
+        public IActionResult EditCar(int? id)
         {
             if (id != null)
             {
@@ -214,9 +220,16 @@ namespace CarShop.Controllers
             {
                 Categories = context.Categories.ToList()
             };
-            
-            return View(model);
-        }
+            if (model.Categories.Count() <= 0)
+            {
+              
+                return RedirectToAction("CreateCategory");
+            }
+            else
+            {
+                return View(model);
+            }
+         }
         [HttpPost]
         public async Task<IActionResult> CreateCar(Car car,Engine engine, IFormFile formFile, IFormFile formFile1)
         {
@@ -233,13 +246,8 @@ namespace CarShop.Controllers
                 {
                     await formFile1.CopyToAsync(file1);
                 }
-                //Engine engine = new Engine(engineName, horsepower);
-                
-                //car.EngineId = engine.Id;
-                //car.Engine = engine;
                 car.ImagePath = path;
                 car.BigImagePath = path1;
-                
                 context.Add(car);
                 context.Add(engine);
                 context.SaveChanges();

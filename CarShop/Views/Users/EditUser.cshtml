@@ -1,0 +1,27 @@
+﻿@model CarShop.BL.ViewModel.UserViewModel.EditUserViewModel
+
+
+    <form asp-action="EditUser" asp-controller="Users">
+        <input hidden asp-for="Id" />
+        <div>
+            <h3>First Name</h3>
+            <input asp-for="FirstName" />
+        </div>
+
+        <div>
+            <h3>Last Name</h3>
+            <input asp-for="LastName" />
+        </div>
+        <div>
+            <h3>Age</h3>
+            <input asp-for="Age" />
+        </div>
+        <div>
+            <h3>Email</h3>
+            <input asp-for="Email" />
+        </div>
+
+        <div>
+            <input type="submit" value="Змінити" />
+        </div>
+    </form>

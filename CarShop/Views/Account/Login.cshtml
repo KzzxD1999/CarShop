@@ -1,0 +1,23 @@
+﻿@model LoginViewModel
+
+<h1>Вхід</h1>
+
+
+<form asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl">
+    <div>
+        <h3>Email</h3>
+        <input asp-for="Email" type="email" />
+    </div>
+
+    <div>
+        <h3>Password</h3>
+        <input asp-for="Password" type="password" />
+    </div>
+    <div>
+        <h3>Remember me</h3>
+        <input asp-for="RememberMe"  value="Запам'ятати?"/>
+    </div>
+    <div>
+        <input value="Вхід" type="submit" />
+    </div>
+</form>

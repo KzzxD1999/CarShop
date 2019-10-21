@@ -3,14 +3,32 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 
 }
+@if (TempData["Messages"] is true)
+{
+<div style="width:250px;height:250px; border:1px solid black; background:red;" id="myModal">
+    <h1>Спочатку створіть категорію</h1>
+</div>
+}
+
 <h1>Створити категорію</h1>
 
-<form method="post" asp-action="CreateCategory" asp-controller="Car"> 
+<form method="post" asp-action="CreateCategory" asp-controller="Car">
     <div>
         <h2>Ім'я</h2>
-        <input type="text" name="Name"/>
+        <input type="text" name="Name" />
     </div>
     <div>
-        <input type="submit"/>
+        <input type="submit" />
     </div>
 </form>
+@section Scripts{
+    @if (TempData["Messages"] is true)
+    {
+        <script>
+
+           $(function() {
+                $('#myModal').modal('show');
+        });
+        </script>
+    }
+}

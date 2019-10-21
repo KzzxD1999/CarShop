@@ -1,0 +1,31 @@
+﻿@model CarShop.BL.ViewModel.UserViewModel.CreateUserViewModel
+@{ 
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+<form asp-action="CreateUser" asp-controller="Users">
+    <div>
+        <h3>Ім'я</h3>
+        <input asp-for="FirstName" />
+    </div>
+    <div>
+        <h3>Прізвище</h3>
+        <input asp-for="LastName" />
+    </div>
+    <div>
+        <h3>Email</h3>
+        <input asp-for="Email" />
+    </div>
+
+    <div>
+        <h3>Age</h3>
+        <input asp-for="Age" />
+    </div>
+    <div>
+        <h3>Password</h3>
+        <input asp-for="Password" />
+    </div>
+
+    <div>
+        <input type="submit" />
+    </div>
+</form>

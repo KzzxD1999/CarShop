@@ -2,7 +2,7 @@
 
 namespace CarShop.Migrations
 {
-    public partial class V1 : Migration
+    public partial class R1x2 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,7 +20,7 @@ namespace CarShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Engine",
+                name: "Engines",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -30,7 +30,7 @@ namespace CarShop.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Engine", x => x.Id);
+                    table.PrimaryKey("PK_Engines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -40,10 +40,14 @@ namespace CarShop.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(nullable: true),
+                    Text = table.Column<string>(nullable: true),
                     CategoryId = table.Column<int>(nullable: false),
+                    Price = table.Column<int>(nullable: false),
                     MaxSpeed = table.Column<double>(nullable: false),
                     Color = table.Column<int>(nullable: false),
-                    EngineId = table.Column<int>(nullable: true),
+                    ImagePath = table.Column<string>(nullable: true),
+                    BigImagePath = table.Column<string>(nullable: true),
+                    EngineId = table.Column<int>(nullable: false),
                     Weight = table.Column<int>(nullable: false),
                     Height = table.Column<double>(nullable: false),
                     Width = table.Column<double>(nullable: false)
@@ -58,11 +62,11 @@ namespace CarShop.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Cars_Engine_EngineId",
+                        name: "FK_Cars_Engines_EngineId",
                         column: x => x.EngineId,
-                        principalTable: "Engine",
+                        principalTable: "Engines",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -85,7 +89,7 @@ namespace CarShop.Migrations
                 name: "Categories");
 
             migrationBuilder.DropTable(
-                name: "Engine");
+                name: "Engines");
         }
     }
 }

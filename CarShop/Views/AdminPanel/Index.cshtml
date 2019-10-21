@@ -3,6 +3,7 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 
 }
+<p>@Model.User.Age</p>
 <h1>Всі категорії</h1>
 @foreach (var item in Model.Categories)
 {
@@ -32,6 +33,7 @@ else
     @foreach (var item in Model.Cars)
     {
 <div>
+   
     <h4>
         <b>
             <a asp-action="DetailsCar" asp-controller="Car" asp-route-id="@item.Id" asp-route-name="@item.Name">

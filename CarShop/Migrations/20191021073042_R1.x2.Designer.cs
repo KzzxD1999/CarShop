@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CarShop.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    [Migration("20191018153546_EngineId")]
-    partial class EngineId
+    [Migration("20191021073042_R1.x2")]
+    partial class R1x2
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,7 +49,6 @@ namespace CarShop.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Price")

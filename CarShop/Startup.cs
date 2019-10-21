@@ -2,10 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CarShop.BL.Models;
 using CarShop.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -28,6 +32,16 @@ namespace CarShop
             services.AddControllersWithViews();
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ContextDb>(x => x.UseSqlServer(connectionString));
+
+            services.AddIdentity<User, IdentityRole>(p =>
+            {
+                p.Password.RequireNonAlphanumeric = false;
+                p.Password.RequireUppercase = false;
+            }
+            )
+            .AddEntityFrameworkStores<ContextDb>().AddDefaultTokenProviders();
+            
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,13 +63,16 @@ namespace CarShop
 
             app.UseRouting();
 
+            //Äëÿ ðåºñòðàö³¿
+            app.UseAuthentication();
             app.UseAuthorization();
-
+            //Ê³íåöü
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+              
             });
         }
     }
