@@ -1,5 +1,6 @@
 ﻿using CarShop.BL.Models;
 using CarShop.BL.ViewModel.UserViewModel;
+using CarShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -12,15 +13,19 @@ namespace CarShop.Controllers
     public class UsersController : Controller
     {
         public readonly UserManager<User> userManager;
-        public UsersController(UserManager<User> _userManager)
+        private ContextDb contextDb;
+
+        public UsersController(UserManager<User> _userManager, ContextDb _contextDb)
         {
             userManager = _userManager;
+            contextDb = _contextDb;
         }
 
         [Route("users")]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var user = userManager.Users.ToList();
+            var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+            var user = userManager.Users.Where(x=>x.Id != currentUser.Id).ToList();
             return View(user);
         }
         
@@ -107,6 +112,28 @@ namespace CarShop.Controllers
             }
             return View(model);
         }
+        public async Task<IActionResult> DeleteUser(string id)
+        {
+            if (id != null)
+            {
+                User user = await userManager.FindByIdAsync(id);
+                var basket = contextDb.Baskets.FirstOrDefault(x=>x.UserId == user.Id);
+                if(basket != null)
+                {
+                    contextDb.Baskets.Remove(basket);
+                
+                }
+                await userManager.DeleteAsync(user);
+                
+                contextDb.SaveChanges();
+                return RedirectToAction("Index");
 
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+
+        }
     }
 }

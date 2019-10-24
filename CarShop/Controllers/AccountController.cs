@@ -1,5 +1,6 @@
 ﻿using CarShop.BL.Models;
 using CarShop.BL.ViewModel;
+using CarShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,6 +14,7 @@ namespace CarShop.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
+        private ContextDb contextDb;
         public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager)
         {
             userManager = _userManager;
@@ -88,7 +90,7 @@ namespace CarShop.Controllers
             }
             return View(model);
         }
-
+      
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()

@@ -1,14 +1,15 @@
 ﻿@model IEnumerable<CarShop.BL.Models.User>
-@{ 
-      Layout = "~/Views/Shared/_UserLayout.cshtml";
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
 @foreach (var item in Model)
 {
     <h1>@item.FirstName @item.LastName</h1>
-    <a asp-action="EditUser" asp-route-id="@item.Id">Редагувати</a>
+    <a asp-action="EditUser" asp-controller="Users" asp-route-id="@item.Id">Редагувати</a>
+    <a asp-action="DeleteUser" asp-controller="Users" asp-route-id="@item.Id">Видалити</a>
+    <a asp-action="Edit" asp-controller="Roles" asp-route-userId="@item.Id">Змінити роль</a>
 
 }
 
 
-    

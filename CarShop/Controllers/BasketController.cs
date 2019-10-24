@@ -46,6 +46,27 @@ namespace CarShop.Controllers
 
 
         }
+
+
+
+        public IActionResult DeleteCarFromBasket(int? id)
+        {
+            var user = contextDb.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
+            var basket = contextDb.Baskets.FirstOrDefault(x => x.UserId == user.Id);
+            var car = contextDb.BasketCars.FirstOrDefault(x => x.CarId == id && x.BasketId == basket.Id);
+
+
+            contextDb.BasketCars.Remove(car);
+            contextDb.SaveChanges();
+            return RedirectToAction("Index");
+
+
+
+        }
+
+
+        
+
         public IActionResult AddCar(int? id)
         {
             var currentUser = userManager.FindByNameAsync(User.Identity.Name).Result;

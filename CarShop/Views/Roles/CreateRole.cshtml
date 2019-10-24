@@ -1,0 +1,11 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityRole
+
+<form asp-action="CreateRole" asp-controller="Roles" method="post">
+    <div>
+        <h3>Name</h3>
+        <input asp-for="Name" />
+    </div>
+    <div>
+        <input type="submit" />
+    </div>
+</form>

@@ -65,8 +65,8 @@ namespace CarShop.Controllers
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
             model.Basket = context.Baskets.FirstOrDefault(x => x.UserId == user.Id);
-            //TODO: ЩО РОБИТИ
-            model.BasketCar = context.BasketCars.Include(x=>x.Car).Where(x=>x.BasketId==model.Basket.Id).FirstOrDefault(x=>x.CarId==id); 
+           
+            model.BasketCar = context.BasketCars.Include(x=>x.Car).Where(x=>x.BasketId==model.Basket.Id && x.InBasket == true).FirstOrDefault(x=>x.CarId==id); 
             
            
             if (model.Car !=null)

@@ -1,0 +1,19 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model CarShop.BL.ViewModel.UserViewModel.ChangeRoleViewModel
+
+<h1>Зміна ролі користувачу</h1>
+<form asp-action="Edit" asp-controller="Roles" method="post">
+
+    <input hidden asp-for="UserId" value="@Model.UserId"/>
+    <div>
+        @foreach (var item in Model.AllRoles)
+        {
+            <input type="checkbox" name="roles" value="@item.Name" 
+                   @(Model.UserRoles.Contains(item.Name)? "cheked = \"checked\"":"")/>@item.Name <br />
+        }
+    </div>
+
+    <div>
+        <input  type="submit" value="Зберегти"/>
+    </div>
+</form>

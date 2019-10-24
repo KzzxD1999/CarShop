@@ -11,6 +11,7 @@
         foreach (var item in Model.Cars)
         {
           <h2>@item.Name</h2>
+          <a asp-action="DeleteCarFromBasket" asp-controller="Basket" asp-route-id="@item.Id">Видалити</a>
         }
     }
 
