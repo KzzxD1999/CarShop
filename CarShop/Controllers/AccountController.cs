@@ -35,7 +35,8 @@ namespace CarShop.Controllers
                     LastName = model.LastName,
                     Age = model.Age,
                     Email = model.Email,
-                    UserName = model.Email
+                    UserName = model.Email,
+                    Basket = new Basket()
                 };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

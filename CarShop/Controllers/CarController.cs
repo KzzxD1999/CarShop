@@ -3,6 +3,7 @@ using CarShop.BL.ViewModel;
 using CarShop.Models;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -20,10 +21,12 @@ namespace CarShop.Controllers
     {
         ContextDb context;
         IWebHostEnvironment webHostEnvironment;
-        public CarController(ContextDb _context, IWebHostEnvironment _webHostEnvironment)
+        public readonly UserManager<User> userManager;
+        public CarController(ContextDb _context, IWebHostEnvironment _webHostEnvironment, UserManager<User> _userManager)
         {
             context = _context;
             webHostEnvironment = _webHostEnvironment;
+            userManager = _userManager;
         }
 
 
@@ -54,11 +57,18 @@ namespace CarShop.Controllers
                 return View();
             }
         }
-        public IActionResult DetailsCar(string name, int id)
+        public async Task<IActionResult> DetailsCar(string name, int id)
         {
+
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
             EditCarViewModel model = new EditCarViewModel();
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
+            model.Basket = context.Baskets.FirstOrDefault(x => x.UserId == user.Id);
+            //TODO: ЩО РОБИТИ
+            model.BasketCar = context.BasketCars.Include(x=>x.Car).Where(x=>x.BasketId==model.Basket.Id).FirstOrDefault(x=>x.CarId==id); 
+            
+           
             if (model.Car !=null)
             {
                 return View(model);

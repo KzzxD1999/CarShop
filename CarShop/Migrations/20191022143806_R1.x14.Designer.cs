@@ -4,14 +4,16 @@ using CarShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarShop.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    partial class ContextDbModelSnapshot : ModelSnapshot
+    [Migration("20191022143806_R1.x14")]
+    partial class R1x14
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,14 +51,11 @@ namespace CarShop.Migrations
                     b.Property<int>("CarId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("InBasket")
-                        .HasColumnType("bit");
-
                     b.HasKey("BasketId", "CarId");
 
                     b.HasIndex("CarId");
 
-                    b.ToTable("BasketCars");
+                    b.ToTable("BasketCar");
                 });
 
             modelBuilder.Entity("CarShop.BL.Models.Car", b =>

@@ -4,14 +4,16 @@ using CarShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarShop.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    partial class ContextDbModelSnapshot : ModelSnapshot
+    [Migration("20191021193534_R1.x9")]
+    partial class R1x9
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace CarShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("NameBasket")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
@@ -41,30 +40,15 @@ namespace CarShop.Migrations
                     b.ToTable("Baskets");
                 });
 
-            modelBuilder.Entity("CarShop.BL.Models.BasketCar", b =>
-                {
-                    b.Property<int>("BasketId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("InBasket")
-                        .HasColumnType("bit");
-
-                    b.HasKey("BasketId", "CarId");
-
-                    b.HasIndex("CarId");
-
-                    b.ToTable("BasketCars");
-                });
-
             modelBuilder.Entity("CarShop.BL.Models.Car", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("BasketId")
+                        .HasColumnType("int");
 
                     b.Property<string>("BigImagePath")
                         .HasColumnType("nvarchar(max)");
@@ -103,6 +87,8 @@ namespace CarShop.Migrations
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
 
                     b.HasIndex("CategoryId");
 
@@ -356,23 +342,12 @@ namespace CarShop.Migrations
                         .HasForeignKey("CarShop.BL.Models.Basket", "UserId");
                 });
 
-            modelBuilder.Entity("CarShop.BL.Models.BasketCar", b =>
-                {
-                    b.HasOne("CarShop.BL.Models.Basket", "Basket")
-                        .WithMany("BasketCars")
-                        .HasForeignKey("BasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CarShop.BL.Models.Car", "Car")
-                        .WithMany("BasketCars")
-                        .HasForeignKey("CarId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CarShop.BL.Models.Car", b =>
                 {
+                    b.HasOne("CarShop.BL.Models.Basket", null)
+                        .WithMany("Cars")
+                        .HasForeignKey("BasketId");
+
                     b.HasOne("CarShop.BL.Models.Category", "Category")
                         .WithMany("Cars")
                         .HasForeignKey("CategoryId")

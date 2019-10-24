@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CarShop.BL.ViewModel
@@ -11,5 +12,6 @@ namespace CarShop.BL.ViewModel
         public IEnumerable<Car> Cars { get; set; }
 
         public SelectList Categories { get; set; }
+   
     }
 }

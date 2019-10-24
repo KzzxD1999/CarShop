@@ -23,6 +23,17 @@ namespace CarShop.BL.Models
         public int Weight { get; set; }
         public double Height { get; set; }
         public double Width { get; set; }
-    
+
+
+        //  public int BasketId { get; set; }
+        //  public Basket Basket { get; set; }
+
+        public List<BasketCar> BasketCars { get; set; }
+
+
+        public Car()
+        {
+            BasketCars = new List<BasketCar>();
+        }
     }
 }

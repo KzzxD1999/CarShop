@@ -5,3 +5,16 @@
 <img src="@Model.Car.ImagePath" width="250" height="250" alt="Alternate Text" />
 
 <h3>@Model.Engine.Name</h3>
+
+
+@if (Model.BasketCar != null)
+{
+    <h3>Дана машина вже в корзині</h3>
+}
+else
+{
+
+        <a asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">Додати в кошик</a>
+}
+
+

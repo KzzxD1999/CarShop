@@ -49,6 +49,19 @@ namespace CarShop.Controllers
                
                 
             };
+
+
+            // var s = context.Users.Where(x=>x.UserName==User.Identity.Name).Include(x => x.Basket).ThenInclude(x => x.Cars);
+
+            var s = context.Baskets.Include(x => x.BasketCars).ThenInclude(x => x.Car).Where(x=>x.User.UserName == User.Identity.Name);
+            
+            foreach (var item in s)
+            {
+                
+                ViewBag.Count = item.BasketCars.Select(x => x.Car).Count();
+            }
+            
+
             return View(carsViewModel);
         }
        

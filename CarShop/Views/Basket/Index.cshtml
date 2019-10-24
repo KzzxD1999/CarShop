@@ -1,0 +1,16 @@
+﻿@model CarShop.BL.ViewModel.UserBasketViewModel
+
+
+
+@if (Model.Cars.Count() <=0)
+    {
+        <h1>Корзина пуста</h1>
+    }
+    else
+    {
+        foreach (var item in Model.Cars)
+        {
+          <h2>@item.Name</h2>
+        }
+    }
+
