@@ -17,7 +17,19 @@
 else
 {
 
-        <a asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">Додати в кошик</a>
+<form asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">
+    
+
+    <div>
+        <h3>Кількість</h3>
+        <input asp-for="BasketCar.Count" value="1"/>
+    </div>
+
+
+    <input type="submit" value="Додати" />
+
+</form>
+        
 }
 }
 else

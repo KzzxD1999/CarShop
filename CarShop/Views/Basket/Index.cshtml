@@ -2,16 +2,25 @@
 
 
 
-@if (Model.Cars.Count() <=0)
+@if (Model.Cars.Count() <= 0)
+{
+    <h1>Корзина пуста</h1>
+}
+else
+{
+    foreach (var item in Model.Cars)
     {
-        <h1>Корзина пуста</h1>
-    }
-    else
-    {
-        foreach (var item in Model.Cars)
+        <h2>@item.Name</h2>
+        <h3>Price: @item.Price</h3>
+
+        foreach (var item1 in Model.BasketCar.Where(x => x.CarId == item.Id))
         {
-          <h2>@item.Name</h2>
-          <a asp-action="DeleteCarFromBasket" asp-controller="Basket" asp-route-id="@item.Id">Видалити</a>
+
+            <h3>@item1.Count</h3>
         }
+
+        <a asp-action="DeleteCarFromBasket" asp-controller="Basket" asp-route-id="@item.Id">Видалити</a>
+
     }
+}
 

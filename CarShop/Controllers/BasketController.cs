@@ -29,17 +29,26 @@ namespace CarShop.Controllers
             var currentUser = userManager.FindByNameAsync(User.Identity.Name).Result;
 
             var baskets = contextDb.Baskets.Include(x => x.BasketCars).ThenInclude(x => x.Car).Where(x=>x.UserId == currentUser.Id);
+            var basket = contextDb.Baskets.FirstOrDefault(x => x.UserId == currentUser.Id);
+            
+           
 
-            List<Car> cars = null;
+            List <Car> cars = null;
+
+
+            var basketCars = contextDb.BasketCars.Where(x=>x.BasketId == basket.Id).ToList();
             foreach (var item in baskets)
             {
                 cars = item.BasketCars.Select(x => x.Car).ToList(); 
+   
+  
             }
             UserBasketViewModel model1 = new UserBasketViewModel()
             {
                 Baskets = baskets,
                 Cars = cars,
-               
+                BasketCar = basketCars
+
             };
             
             return View(model1); //model1
@@ -54,8 +63,7 @@ namespace CarShop.Controllers
             var user = contextDb.Users.FirstOrDefault(x => x.UserName == User.Identity.Name);
             var basket = contextDb.Baskets.FirstOrDefault(x => x.UserId == user.Id);
             var car = contextDb.BasketCars.FirstOrDefault(x => x.CarId == id && x.BasketId == basket.Id);
-
-
+            
             contextDb.BasketCars.Remove(car);
             contextDb.SaveChanges();
             return RedirectToAction("Index");
@@ -67,7 +75,7 @@ namespace CarShop.Controllers
 
         
 
-        public IActionResult AddCar(int? id)
+        public IActionResult AddCar(int? id, BasketCar basketCar)
         {
             var currentUser = userManager.FindByNameAsync(User.Identity.Name).Result;
             if (id != null && ModelState.IsValid)
@@ -93,7 +101,7 @@ namespace CarShop.Controllers
 
                         Basket = contextDb.Baskets.Where(x => x.UserId == currentUser.Id).FirstOrDefault(x=>x.UserId == currentUser.Id);
 
-                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id, InBasket = true });
+                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id, InBasket = true, Count = basketCar.Count });
                         //TODO: змінювати InBasket на тру
                        
                        

@@ -7,5 +7,6 @@
         public int CarId { get; set; }
         public Car Car { get; set; }
         public bool InBasket { get; set; } = false;
+        public int Count { get; set; } = 1;
     }
 }
