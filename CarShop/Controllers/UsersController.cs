@@ -22,13 +22,26 @@ namespace CarShop.Controllers
         }
 
         [Route("users")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string name = null)
         {
             var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
-            var user = userManager.Users.Where(x=>x.Id != currentUser.Id).ToList();
+
+            List<User> user = null;
+            if (name == null)
+            {
+                
+                user = userManager.Users.Where(x => x.Id != currentUser.Id).ToList();
+               
+
+            }
+            else
+            {
+                user = userManager.Users.Where(x => x.FirstName == name || x.LastName == name && x.Id == currentUser.Id).ToList();
+            }
             return View(user);
+
         }
-        
+
         public IActionResult CreateUser()
         {
             return View();

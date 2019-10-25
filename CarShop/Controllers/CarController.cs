@@ -59,16 +59,20 @@ namespace CarShop.Controllers
         }
         public async Task<IActionResult> DetailsCar(string name, int id)
         {
-
-            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            User user = null;
             EditCarViewModel model = new EditCarViewModel();
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
-            model.Basket = context.Baskets.FirstOrDefault(x => x.UserId == user.Id);
-           
-            model.BasketCar = context.BasketCars.Include(x=>x.Car).Where(x=>x.BasketId==model.Basket.Id && x.InBasket == true).FirstOrDefault(x=>x.CarId==id); 
-            
-           
+            if (User.Identity.Name !=null)
+            {
+                user = await userManager.FindByNameAsync(User.Identity.Name);
+                model.Basket = context.Baskets.FirstOrDefault(x => x.UserId == user.Id);
+                model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
+
+            }
+
+
+
             if (model.Car !=null)
             {
                 return View(model);

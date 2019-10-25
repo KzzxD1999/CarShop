@@ -3,6 +3,18 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
 
+<h3>Пошук</h3>
+<form asp-action="Index" asp-controller="Users">
+    <div>
+        <input type="search" name="name" />
+    </div>
+    <div>
+        <input type="submit" value="Пошук" />
+    </div>
+
+    <button type="submit" asp-action="Index" asp-controller="Users" value="">Всі</button>
+</form>
+
 @foreach (var item in Model)
 {
     <h1>@item.FirstName @item.LastName</h1>

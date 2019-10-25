@@ -6,6 +6,9 @@
 
 <h3>@Model.Engine.Name</h3>
 
+@if (User.Identity.IsAuthenticated)
+{
+
 
 @if (Model.BasketCar != null)
 {
@@ -16,5 +19,9 @@ else
 
         <a asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">Додати в кошик</a>
 }
-
+}
+else
+{
+    <h3>Для того щоб добаваити товар в корзину, увійдіть</h3>
+}
 
