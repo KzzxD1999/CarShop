@@ -18,6 +18,7 @@
 @foreach (var item in Model)
 {
     <h1>@item.FirstName @item.LastName</h1>
+    <h4>@item.Email</h4>
     <a asp-action="EditUser" asp-controller="Users" asp-route-id="@item.Id">Редагувати</a>
     <a asp-action="DeleteUser" asp-controller="Users" asp-route-id="@item.Id">Видалити</a>
     <a asp-action="Edit" asp-controller="Roles" asp-route-userId="@item.Id">Змінити роль</a>

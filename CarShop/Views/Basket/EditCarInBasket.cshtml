@@ -1,0 +1,17 @@
+﻿@model CarShop.BL.Models.BasketCar
+
+
+
+    <form asp-action="EditCarInBasket" asp-controller="Basket">
+        <input hidden asp-for="BasketId" value="@Model.BasketId" />
+        <input hidden asp-for="CarId" value="@Model.CarId" />
+
+        <div>
+            <input asp-for="Count" value="@Model.Count" />
+        </div>
+        <div>
+            <input type="submit" value="Зберегти" />
+        </div>
+
+
+    </form>

@@ -15,11 +15,13 @@ else
 
         foreach (var item1 in Model.BasketCar.Where(x => x.CarId == item.Id))
         {
-
+            // <h3>@item1</h3>
             <h3>@item1.Count</h3>
+            <h4>@item1.PriceSum</h4>
         }
 
         <a asp-action="DeleteCarFromBasket" asp-controller="Basket" asp-route-id="@item.Id">Видалити</a>
+        <a asp-action="EditCarInBasket" asp-controller="Basket" asp-route-id="@item.Id">Редагувати</a>
 
     }
 }

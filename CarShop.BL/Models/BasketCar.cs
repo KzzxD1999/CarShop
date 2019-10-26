@@ -8,5 +8,6 @@
         public Car Car { get; set; }
         public bool InBasket { get; set; } = false;
         public int Count { get; set; } = 1;
+        public int PriceSum { get; set; }
     }
 }

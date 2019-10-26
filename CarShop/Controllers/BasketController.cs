@@ -90,22 +90,11 @@ namespace CarShop.Controllers
                     var mode = contextDb.Baskets.Include(x => x.BasketCars).Where(x => x.UserId == currentUser.Id);
                     if (mode != null)
                     {
-                        //var us = contextDb.Users.Include(x=>x.Basket).ThenInclude(x=>x.Cars).FirstOrDefault(x=>x.UserName == currentUser.UserName);
-                        //us.Basket.Cars.Add(car);
-
-
-                        // mode.Basket.Cars.Add(car);
-
-
-                        //Basket.Cars.Add(car);
+                     
 
                         Basket = contextDb.Baskets.Where(x => x.UserId == currentUser.Id).FirstOrDefault(x=>x.UserId == currentUser.Id);
-
-                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id, InBasket = true, Count = basketCar.Count });
-                        //TODO: змінювати InBasket на тру
-                       
-                       
-
+                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id, InBasket = true, Count = basketCar.Count, PriceSum=basketCar.Count * car.Price });
+                        
                         contextDb.SaveChanges();
                     }
                     else
@@ -121,7 +110,7 @@ namespace CarShop.Controllers
                         contextDb.Baskets.Add(Basket);
                         contextDb.SaveChanges();
 
-                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id });
+                        Basket.BasketCars.Add(new BasketCar { BasketId = Basket.Id, CarId = car.Id, Count = basketCar.Count, InBasket = true, PriceSum = basketCar.Count * car.Price });
                         contextDb.SaveChanges();
                     }
                     return RedirectToAction("Index");
@@ -136,6 +125,31 @@ namespace CarShop.Controllers
         }
 
 
+        public async Task<IActionResult> EditCarInBasket(int? id)
+        {
+
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var baseket = contextDb.Baskets.FirstOrDefault(x => x.UserId == user.Id);
+            var basketCars = contextDb.BasketCars.FirstOrDefault(x=>x.BasketId == baseket.Id);
+
+            return View(basketCars);
+
+        }
+        [HttpPost]
+        public IActionResult EditCarInBasket(BasketCar basketCar)
+        {
+            if (basketCar !=null)
+            {
+                var user =  userManager.FindByNameAsync(User.Identity.Name).Result;
+                Basket = contextDb.Baskets.Where(x => x.UserId == user.Id).FirstOrDefault(x => x.UserId == user.Id);
+                var car = contextDb.Cars.FirstOrDefault(x => x.Id == basketCar.CarId);
+               
+                contextDb.BasketCars.Update(new BasketCar() { Basket = Basket, BasketId = Basket.Id, CarId = basketCar.CarId, InBasket = true, Count = basketCar.Count, PriceSum = car.Price * basketCar.Count});
+                
+                contextDb.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
     }
 
 }
