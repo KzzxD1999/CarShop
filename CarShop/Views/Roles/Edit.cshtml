@@ -8,9 +8,9 @@
     <div>
         @foreach (var item in Model.AllRoles)
         {
-            <input type="checkbox" name="roles" value="@item.Name" 
-                   @(Model.UserRoles.Contains(item.Name)? "cheked = \"checked\"":"")/>@item.Name <br />
-        }
+                <input type="checkbox" name="roles" value="@item.Name"
+                       @(Model.UserRoles.Contains(item.Name) ? "checked=\"checked\"" : "") />@item.Name <br />
+                }
     </div>
 
     <div>

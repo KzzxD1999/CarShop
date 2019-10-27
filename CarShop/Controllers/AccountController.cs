@@ -15,10 +15,12 @@ namespace CarShop.Controllers
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
         private ContextDb contextDb;
-        public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager)
+        private RoleManager<IdentityRole> roleManager;
+        public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, RoleManager<IdentityRole> _roleManager)
         {
             userManager = _userManager;
             signInManager = _signInManager;
+            roleManager = _roleManager;
         }
         [HttpGet]
         public IActionResult Register()
@@ -38,9 +40,14 @@ namespace CarShop.Controllers
                     Age = model.Age,
                     Email = model.Email,
                     UserName = model.Email,
+                 
                     Basket = new Basket()
                 };
+
+                var role =  roleManager.Roles.FirstOrDefault(x=>x.Name == "User").ToString();
+      
                 var result = await userManager.CreateAsync(user, model.Password);
+                await userManager.AddToRoleAsync(user, role);
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(user, false);
