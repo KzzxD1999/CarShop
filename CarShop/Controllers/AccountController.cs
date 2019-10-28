@@ -1,6 +1,8 @@
 ﻿using CarShop.BL.Models;
 using CarShop.BL.ViewModel;
 using CarShop.Models;
+using CarShop.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,14 +47,35 @@ namespace CarShop.Controllers
                 };
 
                 var role =  roleManager.Roles.FirstOrDefault(x=>x.Name == "User").ToString();
-      
                 var result = await userManager.CreateAsync(user, model.Password);
-                await userManager.AddToRoleAsync(user, role);
                 if (result.Succeeded)
-                {
-                    await signInManager.SignInAsync(user, false);
-                    return RedirectToAction("Index", "AdminPanel");
 
+                {
+                    await userManager.AddToRoleAsync(user, role);
+
+
+
+
+                    var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var callBack = Url.Action("ConfirmMail",
+                        "Account",
+                        new { userId = user.Id, code = code },
+                        protocol: HttpContext.Request.Scheme);
+                    EmailService emailService = new EmailService();
+                    await emailService.SendEmailAsync(model.Email, "Підтвердіть свій Email",
+                        $"Підтвердіть реєстрацію <a href='{callBack}'>Тиц</a> "
+                        );
+
+                    await signInManager.SignInAsync(user, false);
+                    string isUser = userManager.GetRolesAsync(user).Result.ToString();
+                    if (isUser.Contains("User"))
+                    {
+                        return RedirectToAction("Index", "UserPanel");
+                    }                    
+                    else
+                    {
+                        return RedirectToAction("Index", "AdminPanel");
+                    }
                 }
                 else
                 {
@@ -65,7 +88,30 @@ namespace CarShop.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmMail(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                return View("Error");
+            }
+            var user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return View("Error");
+            }
+            var result = await userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                return View("Error");
+            }
 
+        }
         [HttpGet]
         public IActionResult Login(string returnUrl)
         {

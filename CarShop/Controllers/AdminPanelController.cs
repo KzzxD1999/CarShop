@@ -35,6 +35,7 @@ namespace CarShop.Controllers
                 User = user,
 
             };
+            //TODO: Chart.js
             return View(model);
         }
 

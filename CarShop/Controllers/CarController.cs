@@ -22,13 +22,32 @@ namespace CarShop.Controllers
         ContextDb context;
         IWebHostEnvironment webHostEnvironment;
         public readonly UserManager<User> userManager;
+
+        public Category Category { get; set; }
+
         public CarController(ContextDb _context, IWebHostEnvironment _webHostEnvironment, UserManager<User> _userManager)
         {
             context = _context;
             webHostEnvironment = _webHostEnvironment;
             userManager = _userManager;
         }
+        public IActionResult Index(string category = null)
+        {
+            IQueryable<Car> cars = context.Cars.Include(x => x.Category);
+            if (category !=null && !category.Equals("All"))
+            {
+                cars = cars.Where(x => x.Category.Name == category);
+            }
+            Category = context.Categories.FirstOrDefault(x=>x.Name == category);
+            CarsViewModel model = new CarsViewModel()
+            {
+                Cars = cars,
+                Categories = new SelectList(context.Categories, "Name", "", Category),
 
+            };
+
+            return View(model);
+        }
 
         [Route("create-category")]
         public IActionResult CreateCategory()

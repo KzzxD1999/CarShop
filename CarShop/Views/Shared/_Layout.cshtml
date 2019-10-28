@@ -19,7 +19,7 @@
                         <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Політика</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Машини</a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">Машини</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav">
@@ -34,11 +34,14 @@
                                 <input type="submit" value="Вийти" />
                             </form>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="UserPanel" asp-action="Index">Профіль</a>
+                        </li>
                         if (User.IsInRole("Admin"))
                         {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="Index">Адмінка</a>
-                        </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="AdminPanel" asp-action="Index">Адмінка</a>
+                            </li>
                         }
                     }
                     else

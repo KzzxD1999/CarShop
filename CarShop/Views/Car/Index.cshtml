@@ -1,0 +1,40 @@
+﻿@model CarsViewModel
+
+@if (Model.Cars.Count() <= 0)
+{
+    <h1>Машин немає</h1>
+}
+else
+{
+    <form method="get">
+        <label class="control-label">Категорія: </label>
+
+        <select name="category" asp-items="@Model.Categories">
+            <option value="All">Всі</option>
+        </select>
+        <input type="submit" value="Показати" />
+    </form>
+    <section class="all-cars">
+
+        <div>
+            <h1>Кабріолети</h1>
+            <hr />
+            @foreach (var item in Model.Cars)
+            {
+                <div class="item-car">
+                    <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
+                        <img src="@item.ImagePath" class="car-img" />
+                        <h4 class="car-name">@item.Name</h4>
+                        <p class="car-price">@item.Price</p>
+
+                    </a>
+                    <p><i><a href="#">Конфігурація</a></i></p>
+                    <p><i><a href="#">Детальніше</a></i></p>
+                </div>
+            }
+        </div>
+
+
+
+    </section>
+}

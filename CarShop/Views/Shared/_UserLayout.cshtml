@@ -13,15 +13,19 @@
         </header>
         <nav>
             <ul>
+                @if (User.IsInRole("Admin"))
+                {
+
+
                 <li><a asp-action="CreateCategory" asp-controller="Car">Створити категорію</a></li>
                 <li><a asp-action="CreateCar" asp-controller="Car">Додати машину</a></li>
                 <li><a asp-action="CreateUser" asp-controller="Users">Додати користувача</a></li>
                 <li><a asp-action="CreateRole" asp-controller="Roles">Додати роль</a></li>
                 <li><a asp-action="Index" asp-controller="Roles">Всі ролі</a></li>
                 <li><a asp-action="Index" asp-controller="Users">Всі користувачі</a></li>
+                }
 
-
-
+                
             </ul>
         </nav>
 

@@ -27,38 +27,33 @@ namespace CarShop.Controllers
             context = _context;
         }
 
-        public IActionResult _Count()
+       
+        public IActionResult Index()
         {
-            var s = context.Baskets.Include(x => x.BasketCars).ThenInclude(x => x.Car).Where(x => x.User.UserName == User.Identity.Name);
+            //IQueryable<Car> cars = context.Cars.Include(x => x.Category);
+           // if (category != null && !category.Equals("All")) {
+            //    cars = cars.Where(x => x.Category.Name == category);
+            //}
+            //else
+            //{
+                ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Take(5);
+                ViewBag.X = context.Cars.Where(x => x.Category.Name == "XXXXX").Take(5);
 
-            foreach (var item in s)
-            {
-
-                ViewBag.Count = item.BasketCars.Select(x => x.Car).Count();
-            }
-
-            return PartialView();
-        }
-        public IActionResult Index(string category)
-        {
-            IQueryable<Car> cars = context.Cars.Include(x => x.Category);
-            if (category != null && !category.Equals("All")) {
-                cars = cars.Where(x => x.Category.Name == category);
-            }
+ //           }
 
             //ViewBag.categories = context.Categories.ToList();
-            Category = context.Categories.FirstOrDefault(x => x.Name == category);
+ //           Category = context.Categories.FirstOrDefault(x => x.Name == category);
             //if (Category ==null)
             //{
             //    Category = new Category();
             //    Category.Name = "All";
             //}
             //categories.Insert(0, new Category { Name = "Всі", Id = 0 });
+            
             CarsViewModel carsViewModel = new CarsViewModel()
             {
-                Cars = cars.ToList(),
-                Categories = new SelectList(context.Categories, "Name","", Category),
-               
+                Cars = context.Cars.ToList(),
+                
                 
             };
 

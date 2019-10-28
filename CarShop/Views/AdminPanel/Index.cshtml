@@ -3,7 +3,12 @@
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 
 }
-<p>@Model.User.Age</p>
+
+@if (!Model.User.EmailConfirmed)
+{
+    <h3>Підтвердіть свою почту для користування всіма послугами нашого сервісу</h3>
+}
+<p>@Model.User.Email</p>
 <h1>Всі категорії</h1>
 @foreach (var item in Model.Categories)
 {
