@@ -35,5 +35,9 @@ namespace CarShop.BL.Models
         {
             BasketCars = new List<BasketCar>();
         }
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

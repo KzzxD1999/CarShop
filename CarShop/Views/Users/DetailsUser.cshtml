@@ -1,0 +1,11 @@
+﻿@model CarShop.BL.ViewModel.UserViewModel.BasketUserViewModel
+
+<h1>@Model.User.UserName</h1>
+
+<h3>@Model.Basket.Id</h3>
+
+@foreach (var item in Model.Baskets)
+{
+    <h3>@item.Car.Name</h3>
+    <img src="@item.Car.ImagePath" width="500px" height="500px"/>
+}

@@ -12,6 +12,7 @@
         "nav main"
         "footer footer"
 }
+
 header{
     background:#b1769a;
     grid-area:header;

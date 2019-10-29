@@ -16,7 +16,6 @@ namespace CarShop.Controllers
         private ContextDb contextDb;
         private readonly UserManager<User> userManager;
         private Basket Basket { get; set; }
-        private User CurrentUser { get; set; }
         public BasketController(ContextDb _contextDb, UserManager<User> _userManager)
         {
             contextDb = _contextDb;

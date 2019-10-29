@@ -15,12 +15,35 @@ else
 
     @if (ViewBag.Cabrilets != null)
     {
-        <section class="all-cars">
+<section class="all-cars">
+    <h1>Кабріолети</h1>
+    <hr />
+    <div class="grid-category">
 
-            <div>
-                <h1>Кабріолети</h1>
-                <hr />
-                @foreach (var item in ViewBag.Cabrilets)
+        @foreach (var item in ViewBag.Cabrilets)
+        {
+            <div class="item-car">
+                <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
+                    <img src="@item.ImagePath" class="car-img" />
+                    <h4 class="car-name">@item.Name</h4>
+                    <p class="car-price">@item.Price</p>
+
+                </a>
+                <p><i><a href="#">Конфігурація</a></i></p>
+                <p><i><a href="#">Детальніше</a></i></p>
+            </div>
+        }
+    </div>
+</section>
+    }
+
+    @if (ViewBag.X != null)
+    {
+        <section class="all-cars">
+            <h1>X</h1>
+            <hr />
+            <div class="grid-category">
+                @foreach (var item in ViewBag.X)
                 {
                     <div class="item-car">
                         <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
@@ -34,27 +57,6 @@ else
                     </div>
                 }
             </div>
-        </section>
-    }
-
-    @if (ViewBag.X != null)
-    {
-        <section>
-            <h1>X</h1>
-            <hr />
-            @foreach (var item in ViewBag.X)
-            {
-                <div class="item-car">
-                    <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
-                        <img src="@item.ImagePath" class="car-img" />
-                        <h4 class="car-name">@item.Name</h4>
-                        <p class="car-price">@item.Price</p>
-
-                    </a>
-                    <p><i><a href="#">Конфігурація</a></i></p>
-                    <p><i><a href="#">Детальніше</a></i></p>
-                </div>
-            }
 
         </section>
 

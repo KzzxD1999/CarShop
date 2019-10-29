@@ -15,8 +15,6 @@
             <ul>
                 @if (User.IsInRole("Admin"))
                 {
-
-
                 <li><a asp-action="CreateCategory" asp-controller="Car">Створити категорію</a></li>
                 <li><a asp-action="CreateCar" asp-controller="Car">Додати машину</a></li>
                 <li><a asp-action="CreateUser" asp-controller="Users">Додати користувача</a></li>
@@ -24,16 +22,11 @@
                 <li><a asp-action="Index" asp-controller="Roles">Всі ролі</a></li>
                 <li><a asp-action="Index" asp-controller="Users">Всі користувачі</a></li>
                 }
-
-                
             </ul>
         </nav>
-
         <main>
             @RenderBody()
         </main>
-
-
         <footer>@DateTime.Now - Зараз</footer>
     </div>
     <script src="~/js/site.js" asp-append-version="true"></script>

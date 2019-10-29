@@ -3,6 +3,7 @@ using CarShop.BL.ViewModel.UserViewModel;
 using CarShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,10 +43,35 @@ namespace CarShop.Controllers
 
         }
 
+
+
+        public IActionResult DetailsUser(string id, string userName)
+        {
+            if (id !=null &&  userName !=null)
+            {
+                
+                var user = userManager.Users.FirstOrDefault(x => x.Id == id && x.UserName == userName);
+                var basket = contextDb.Baskets.FirstOrDefault(x => x.UserId == id);
+                var basketCars = contextDb.BasketCars.Include(x=>x.Car).Where(x=>x.BasketId == basket.Id).ToList();
+                BasketUserViewModel model = new BasketUserViewModel()
+                {
+                    User = user,
+                    Basket = basket,
+                    Baskets = basketCars,
+                };
+
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("Index");
+            }
+        }
         public IActionResult CreateUser()
         {
             return View();
         } 
+
 
         [HttpPost]
         public async Task<IActionResult> CreateUser(CreateUserViewModel createUserViewModel)
