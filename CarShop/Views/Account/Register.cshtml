@@ -1,7 +1,7 @@
 ﻿@model RegisterViewModel
 <h1>Register</h1>
 
-<form asp-action="Register" asp-controller="Account" method="post">
+<form asp-action="Register" asp-controller="Account" method="post" enctype="multipart/form-data">
     <div>
         <h3>Email</h3>
         <input type="email" asp-for="Email" />
@@ -25,6 +25,11 @@
     <div>
         <h3>Age</h3>
         <input type="number" asp-for="Age" />
+    </div>
+
+    <div>
+        <h3>Avatar</h3>
+        <input type="file" name="avatar"/>
     </div>
 
 

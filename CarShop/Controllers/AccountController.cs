@@ -1,12 +1,16 @@
-﻿using CarShop.BL.Models;
+﻿using CarShop.BL;
+using CarShop.BL.Models;
 using CarShop.BL.ViewModel;
 using CarShop.Models;
 using CarShop.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,13 +20,14 @@ namespace CarShop.Controllers
     {
         private readonly UserManager<User> userManager;
         private readonly SignInManager<User> signInManager;
-        private ContextDb contextDb;
+        private IWebHostEnvironment webHostEnvironment;
         private RoleManager<IdentityRole> roleManager;
-        public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, RoleManager<IdentityRole> _roleManager)
+        public AccountController(UserManager<User> _userManager, SignInManager<User> _signInManager, RoleManager<IdentityRole> _roleManager, IWebHostEnvironment _webHostEnvironment)
         {
             userManager = _userManager;
             signInManager = _signInManager;
             roleManager = _roleManager;
+            webHostEnvironment = _webHostEnvironment;
         }
         [HttpGet]
         public IActionResult Register()
@@ -31,10 +36,21 @@ namespace CarShop.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register(RegisterViewModel model, IFormFile avatar)
         {
             if (ModelState.IsValid)
             {
+                string path = "/Img/Avatar/" + avatar.FileName;
+                using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await avatar.CopyToAsync(file);
+                }
+
+
+
+
+
+
                 User user = new User()
                 {
                     FirstName = model.FirstName,
@@ -42,7 +58,7 @@ namespace CarShop.Controllers
                     Age = model.Age,
                     Email = model.Email,
                     UserName = model.Email,
-                 
+                    Avatar = path,
                     Basket = new Basket()
                 };
 
@@ -133,6 +149,8 @@ namespace CarShop.Controllers
                     }
                     else
                     {
+
+   
                         return RedirectToAction("Index", "Home");
                     }
                 }

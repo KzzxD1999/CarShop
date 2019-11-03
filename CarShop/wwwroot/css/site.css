@@ -167,9 +167,23 @@ main {
     .main-item span > i {
         color: #666;
     }
+#popup-loginIn{
+    position: absolute;
+    width: 20em;
+    height: 10em;
+    border: 1px solid black;
+    background: green;
+    color: white;
+    font-size: 15px;
+    bottom: 0;
+    top: 0;
+    right: 0;
+    margin: 2em;
+}
 
-    @keyframes anim-shadow{
-        100%{
+
+@keyframes anim-shadow {
+    100%{
             box-shadow: 0px 0px 0px 12px;
             opacity:0;
         }

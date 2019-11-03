@@ -98,6 +98,7 @@ namespace CarShop.Controllers
                     Age = createUserViewModel.Age,
                     Email = createUserViewModel.Email,
                     UserName = createUserViewModel.Email,
+                    Basket = new Basket()
 
                 };
                 var result = await userManager.CreateAsync(user, createUserViewModel.Password);

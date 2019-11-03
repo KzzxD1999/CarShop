@@ -2,8 +2,26 @@
 
 let popupLoginIn = document.getElementById("popup-loginIn");
 
-function ShowPopupe() {
-    popupLoginIn.style.transition = "all 1.5s";
-    popupLoginIn.style.opacity = 0;
+
+
+var today = new Date().getHours();
+//put whatever future date you want below
+var showUntil = new Date().getHours() + 20;
+
+if (sessionStorage.getItem("shown") === null) {
+    setTimeout(function () {
+        if (today < showUntil) {
+            console.log(showUntil);
+            popupLoginIn.style.transition = "all 1.5s";
+            popupLoginIn.style.opacity = 0;
+            sessionStorage.setItem("shown", "true");
+
+        }
+    }, 5000);
+} else {
+    popupLoginIn.style.display = "none";
 }
-setTimeout(ShowPopupe, 5000);
+
+function SessionDelete() {
+    sessionStorage.removeItem("shown");
+}

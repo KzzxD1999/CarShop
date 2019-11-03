@@ -41,7 +41,8 @@ namespace CarShop
             }
             )
             .AddEntityFrameworkStores<ContextDb>().AddDefaultTokenProviders();
-
+            services.AddDistributedMemoryCache();
+            services.AddSession();
 
         }
 
@@ -63,7 +64,8 @@ namespace CarShop
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseSession();
+          
             //Для реєстрації
             app.UseAuthentication();
             app.UseAuthorization();

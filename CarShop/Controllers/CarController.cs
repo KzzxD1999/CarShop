@@ -277,7 +277,7 @@ namespace CarShop.Controllers
                     await formFile.CopyToAsync(file);
                     
                 }
-                using (FileStream file1 = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                using (FileStream file1 = new FileStream(webHostEnvironment.WebRootPath + path1, FileMode.Create))
                 {
                     await formFile1.CopyToAsync(file1);
                 }

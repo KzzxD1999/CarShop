@@ -34,6 +34,7 @@ namespace CarShop.BL.ViewModel
         [DataType(DataType.Password)]
         public string PasswordConfirm { get; set; }
 
+        public string Avatar { get; set; }
 
 
 
