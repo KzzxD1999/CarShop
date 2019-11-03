@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CarShop.BL.InitDB;
+using CarShop.BL.Models;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -26,7 +27,8 @@ namespace CarShop
                 try
                 {
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    await RoleInitializer.InitializerAsync(roleManager);
+                    var userManager = services.GetRequiredService<UserManager<User>>();
+                    await RoleInitializer.InitializerAsync(roleManager,userManager);
                 }
                 catch (Exception ex)
                 {

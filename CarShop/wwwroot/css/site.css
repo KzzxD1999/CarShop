@@ -41,6 +41,7 @@ footer {
 main {
     background: white;
     grid-area: main;
+    height:100%;
 }
 
 /*Index cars*/
@@ -77,3 +78,101 @@ main {
     transform: scale(1.2);
     box-shadow: 1px 1px 1px 1px rgba(22,35,49,0.15);
 }
+
+/*Login*/
+.login {
+    display: inline-grid;
+  
+    /* grid-auto-columns: 1fr 1fr; */
+    display: grid;
+    height: 25em;
+    /* justify-content: center; */
+    margin-left: auto;
+    /* margin-bottom: -73px; */
+    /* margin-top: 20px; */
+    margin-right: auto;
+    border-radius: 0.6em;
+    width: 50em;
+    border: 1px solid;
+    align-items: center;
+    grid-template-columns: repeat(2, 1fr);
+    /* height: 20em; */
+    /* justify-content: center;*/
+}
+.main-login {
+    height: 100%;
+    display: grid;
+    align-items: center;
+}
+.input-login {
+    padding: 1em 1em 1em 3.5em;
+    border-radius: 15px;
+    background: #e6e6e6;
+    border: 1px solid #e6e6e6;
+    outline: none;
+    font-family: sans-serif;
+    transition: .5s;
+}
+    .input-login:focus +.input-animation+ .input-icon-animation {
+        padding-left: .5em;
+    }
+    .input-login:focus+.input-animation {
+        animation: anim-shadow .5s ease-in-out forwards;
+    }
+    .input-login:focus {
+        border-color: #ca000000 !important;
+    }
+.input-icon-animation {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    bottom: 0;
+    top: 0;
+    transition: .5s;
+    pointer-events: none;
+}
+
+.input-animation {
+    display: block;
+    position: absolute;
+    border-radius: 15px;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100%;
+    box-shadow: 0px 0px 0px 0px;
+    color: rgba(87,184,70, 0.8);
+}
+.login-form {
+    display: grid;
+    justify-self: center;
+}
+.login-image{
+    display:grid;
+    justify-self:center;
+}
+.main-item {
+    position: relative;
+    z-index:1;  
+    margin-bottom: 20px;
+}
+    .main-item .input-icon-animation {
+        padding-left: 1em;
+    }
+
+
+    .main-item span > i {
+        color: #666;
+    }
+
+    @keyframes anim-shadow{
+        100%{
+            box-shadow: 0px 0px 0px 12px;
+            opacity:0;
+        }
+    }
+
+  

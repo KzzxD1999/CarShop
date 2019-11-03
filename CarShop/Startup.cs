@@ -41,7 +41,7 @@ namespace CarShop
             }
             )
             .AddEntityFrameworkStores<ContextDb>().AddDefaultTokenProviders();
-            
+
 
         }
 

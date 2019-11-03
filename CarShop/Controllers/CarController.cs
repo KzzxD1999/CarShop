@@ -22,15 +22,19 @@ namespace CarShop.Controllers
         ContextDb context;
         IWebHostEnvironment webHostEnvironment;
         public readonly UserManager<User> userManager;
-
+        public List<User> Users { get; set; }
         public Category Category { get; set; }
-
+        public User CurrentUser { get; set; }
         public CarController(ContextDb _context, IWebHostEnvironment _webHostEnvironment, UserManager<User> _userManager)
         {
             context = _context;
             webHostEnvironment = _webHostEnvironment;
             userManager = _userManager;
+          
+            
         }
+
+        
         public IActionResult Index(string category = null)
         {
             IQueryable<Car> cars = context.Cars.Include(x => x.Category);
@@ -39,6 +43,7 @@ namespace CarShop.Controllers
                 cars = cars.Where(x => x.Category.Name == category);
             }
             Category = context.Categories.FirstOrDefault(x=>x.Name == category);
+            
             CarsViewModel model = new CarsViewModel()
             {
                 Cars = cars,
@@ -68,7 +73,7 @@ namespace CarShop.Controllers
                 
                 context.Categories.Add(category);
                 context.SaveChanges();
-                return  RedirectToRoute("https://localhost:44335/AdminPanel");
+                return  RedirectToAction("Index", "AdminPanel");
             }
             catch (ArgumentNullException)
             {
@@ -78,27 +83,24 @@ namespace CarShop.Controllers
         }
         public async Task<IActionResult> DetailsCar(string name, int id)
         {
-            User user = null;
+            //User user = null;
             EditCarViewModel model = new EditCarViewModel();
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
             if (User.Identity.Name !=null)
             {
-                user = await userManager.FindByNameAsync(User.Identity.Name);
-                model.Basket = context.Baskets.FirstOrDefault(x => x.UserId == user.Id);
-                model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
+                CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
+                model.Basket = context.Baskets.Include(x=>x.BasketCars).FirstOrDefault(x => x.UserId == CurrentUser.Id);
+                //model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
 
             }
-
-
-
             if (model.Car !=null)
             {
                 return View(model);
             }
             else
             {
-                return RedirectToAction("CreateCar");
+                return RedirectToAction("Index", "HomeController");
             }
 
         }

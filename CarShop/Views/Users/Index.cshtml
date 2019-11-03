@@ -1,4 +1,7 @@
-﻿@model IEnumerable<CarShop.BL.Models.User>
+﻿@model CarShop.BL.ViewModel.UserViewModel.UserPageViewModel
+@*подключаем все tag-хелперы*@
+@addTagHelper "*, CarShop"
+
 @{
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
@@ -15,7 +18,7 @@
     <button type="submit" asp-action="Index" asp-controller="Users" value="">Всі</button>
 </form>
 
-@foreach (var item in Model)
+@foreach (var item in Model.Users)
 {
     <h1>@item.FirstName @item.LastName</h1>
     <h4> <a asp-action="DetailsUser" asp-controller="Users" asp-route-id="@item.Id" asp-route-userName="@item.UserName">@item.Email</a></h4>
@@ -24,5 +27,6 @@
     <a asp-action="Edit" asp-controller="Roles" asp-route-userId="@item.Id">Змінити роль</a>
 
 }
-
-
+<div>
+    <page-link page-model="@Model.PageViewModel" page-action="Index"></page-link>
+</div>

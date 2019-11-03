@@ -1,4 +1,5 @@
 ﻿using CarShop.BL.Models;
+using CarShop.BL.ViewModel;
 using CarShop.BL.ViewModel.UserViewModel;
 using CarShop.Models;
 using Microsoft.AspNetCore.Identity;
@@ -23,23 +24,35 @@ namespace CarShop.Controllers
         }
 
         [Route("users")]
-        public async Task<IActionResult> Index(string name = null)
+        public async Task<IActionResult> Index(string name = null, int page = 1)
         {
             var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
-
-            List<User> user = null;
+            int pageCount = 1;
+            //TODO:Пофіксити пошук
+            IQueryable<User> user = null;
+            List<User> items = null;
+            int count = 0;
             if (name == null)
             {
                 
-                user = userManager.Users.Where(x => x.Id != currentUser.Id).ToList();
-               
+                user = userManager.Users.Where(x => x.Id != currentUser.Id);
+                count = await user.CountAsync();
+                items = await user.Skip((page - 1) * pageCount).Take(pageCount).ToListAsync();
 
             }
             else
             {
-                user = userManager.Users.Where(x => x.FirstName == name || x.LastName == name && x.Id == currentUser.Id).ToList();
+                items = await userManager.Users.Where(x => x.FirstName == name || x.Email ==name || x.LastName == name && x.Id == currentUser.Id).ToListAsync();
             }
-            return View(user);
+
+            PageViewModel pageViewModel = new PageViewModel(count, page, pageCount);
+            UserPageViewModel model = new UserPageViewModel()
+            {
+                Users = items,
+                PageViewModel = pageViewModel,
+            };
+
+            return View(model);
 
         }
 

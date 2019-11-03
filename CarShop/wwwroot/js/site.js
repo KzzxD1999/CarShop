@@ -1,4 +1,9 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
+﻿'use-strict'
 
-// Write your JavaScript code.
+let popupLoginIn = document.getElementById("popup-loginIn");
+
+function ShowPopupe() {
+    popupLoginIn.style.transition = "all 1.5s";
+    popupLoginIn.style.opacity = 0;
+}
+setTimeout(ShowPopupe, 5000);

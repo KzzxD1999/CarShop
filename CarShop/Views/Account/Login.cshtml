@@ -1,23 +1,36 @@
 ﻿@model LoginViewModel
 
-<h1>Вхід</h1>
+
+    <section class="main-login">
+        <div class="login">
+            <div class="login-image">
+                <img width="200" height="200" />
+            </div>
+            <div class="login-form">
+                <h1>Вхід</h1>
+                <form asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl">
+                    <div class="main-item">
 
 
-<form asp-action="Login" asp-controller="Account" asp-route-returnUrl="@Model.ReturnUrl">
-    <div>
-        <h3>Email</h3>
-        <input asp-for="Email" type="email" />
-    </div>
+                        <input class="input-login" placeholder="Email" asp-for="Email" type="email" />
+                        <span class="input-animation"></span>
+                        <span class="input-icon-animation"><i class="fas fa-envelope"></i></span>
+                    </div>
 
-    <div>
-        <h3>Password</h3>
-        <input asp-for="Password" type="password" />
-    </div>
-    <div>
-        <h3>Remember me</h3>
-        <input asp-for="RememberMe"  value="Запам'ятати?"/>
-    </div>
-    <div>
-        <input value="Вхід" type="submit" />
-    </div>
-</form>
+                    <div class="main-item">
+
+                        <input asp-for="Password" class="input-login" type="password" placeholder="Password" />
+                        <span class="input-animation"></span>
+                        <span class="input-icon-animation"><i class="fas fa-key"></i></span>
+                    </div>
+                    <div>
+                        <h3>Remember me</h3>
+                        <input asp-for="RememberMe" value="Запам'ятати?" />
+                    </div>
+                    <div>
+                        <input value="Вхід" type="submit" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>

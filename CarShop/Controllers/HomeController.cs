@@ -30,38 +30,14 @@ namespace CarShop.Controllers
        
         public IActionResult Index()
         {
-            //IQueryable<Car> cars = context.Cars.Include(x => x.Category);
-           // if (category != null && !category.Equals("All")) {
-            //    cars = cars.Where(x => x.Category.Name == category);
-            //}
-            //else
-            //{
-                ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Take(5);
-                ViewBag.X = context.Cars.Where(x => x.Category.Name == "XXXXX").Take(5);
-
- //           }
-
-            //ViewBag.categories = context.Categories.ToList();
- //           Category = context.Categories.FirstOrDefault(x => x.Name == category);
-            //if (Category ==null)
-            //{
-            //    Category = new Category();
-            //    Category.Name = "All";
-            //}
-            //categories.Insert(0, new Category { Name = "Всі", Id = 0 });
-            
+            ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Take(5);
+            ViewBag.X = context.Cars.Where(x => x.Category.Name == "XXXXX").Take(5);
             CarsViewModel carsViewModel = new CarsViewModel()
             {
                 Cars = context.Cars.ToList(),
                 
                 
             };
-
-
-            // var s = context.Users.Where(x=>x.UserName==User.Identity.Name).Include(x => x.Basket).ThenInclude(x => x.Cars);
-
-           
-
             return View(carsViewModel);
         }
        

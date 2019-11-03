@@ -5,9 +5,9 @@
 }
 @if (TempData["Messages"] is true)
 {
-<div style="width:250px;height:250px; border:1px solid black; background:red;" id="myModal">
+    <div class="error-message" id="myModal">
     <h1>Спочатку створіть категорію</h1>
-</div>
+    </div>
 }
 
 <h1>Створити категорію</h1>
@@ -26,9 +26,15 @@
     {
         <script>
 
-           $(function() {
-                $('#myModal').modal('show');
-        });
+            
+         
+            let modal = document.getElementById("myModal");
+            setTimeout(function () {
+                modal.style.transition = "all 1.5s";
+                modal.style.opacity = 0;
+            }, 5000);
+    
+
         </script>
     }
 }
