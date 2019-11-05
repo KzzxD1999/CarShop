@@ -58,7 +58,7 @@ main {
 .item-car {
     width: 16em;
     /* align-items: center; */
-    height: 13em;
+    height: auto;
     /* justify-self: center; */
     border: 2px solid rgba(0,0,0, 0.24);
     background: white;
@@ -66,7 +66,7 @@ main {
     border-radius: 1.2em;
     transition:all .5s;
     box-shadow: 0px 15px 40px -10px rgba(22,35,49,0.15);
-
+    margin-bottom:5em;
     /*ховає те що вилазить за межі*/
     position:relative;
     overflow:hidden;
@@ -182,6 +182,22 @@ main {
 }
 
 
+/*Details*/
+.details-image-main{
+    width:100%;
+    height:100vh;
+}
+.details-image-main > img{
+    height:100%;
+    width:100%;
+}
+.chage-background {
+    width: 100%;
+    display: flex;
+    top: 50%;
+    position: absolute;
+    justify-content: center;
+}
 @keyframes anim-shadow {
     100%{
             box-shadow: 0px 0px 0px 12px;

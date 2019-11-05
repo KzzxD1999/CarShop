@@ -14,6 +14,7 @@ if (sessionStorage.getItem("shown") === null) {
             console.log(showUntil);
             popupLoginIn.style.transition = "all 1.5s";
             popupLoginIn.style.opacity = 0;
+            popupLoginIn.style.display = "none";
             sessionStorage.setItem("shown", "true");
 
         }

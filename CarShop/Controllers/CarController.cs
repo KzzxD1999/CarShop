@@ -47,7 +47,7 @@ namespace CarShop.Controllers
             CarsViewModel model = new CarsViewModel()
             {
                 Cars = cars,
-                Categories = new SelectList(context.Categories, "Name", "", Category),
+                Categories = new SelectList(context.Categories.ToList(), "Name", "", Category),
 
             };
 
@@ -81,6 +81,45 @@ namespace CarShop.Controllers
                 return View();
             }
         }
+
+        [HttpGet]
+        public IActionResult CreateLogo()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateLogo(CarLogo carLogo, IFormFile logo)
+        {
+            CarLogo carLogo1 = context.CarLogos.FirstOrDefault(x => x.NameLogo == carLogo.NameLogo);
+            if (ModelState.IsValid && carLogo1 == null)
+            {
+                
+                if(logo != null)
+                {
+                    string path = $"/Img/Cars/Logo/{logo.FileName}";
+                    using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await logo.CopyToAsync(file);
+                    }
+                    carLogo.Path = path;
+                }
+                else
+                {
+                    //TODO: Додати лого за замовчуванням
+                }
+
+                context.CarLogos.Add(carLogo);
+                context.SaveChanges();
+                return RedirectToAction("Index", "AdminPanel");
+
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Даний логотип вже існує");
+            }
+            return View();
+        }
+
         public async Task<IActionResult> DetailsCar(string name, int id)
         {
             //User user = null;
@@ -91,7 +130,7 @@ namespace CarShop.Controllers
             {
                 CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
                 model.Basket = context.Baskets.Include(x=>x.BasketCars).FirstOrDefault(x => x.UserId == CurrentUser.Id);
-                //model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
+                model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
 
             }
             if (model.Car !=null)
@@ -253,7 +292,8 @@ namespace CarShop.Controllers
         {
             EditCarViewModel model = new EditCarViewModel()
             {
-                Categories = context.Categories.ToList()
+                Categories = context.Categories.ToList(),
+                CarLogos = context.CarLogos.ToList()
             };
             if (model.Categories.Count() <= 0)
             {
@@ -265,24 +305,35 @@ namespace CarShop.Controllers
                 return View(model);
             }
          }
+        //TODO: редагування машини
+        //TODO: Створення користувача - додавати фото
+        //TODO: Видалення, редагування  
         [HttpPost]
         public async Task<IActionResult> CreateCar(Car car,Engine engine, IFormFile formFile, IFormFile formFile1)
         {
             try
             {
                 string path = $"/Img/Cars/{formFile.FileName}";
-                string path1 = $"/Img/Cars/{formFile1.FileName}";
+ 
                 using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
                 {
                     await formFile.CopyToAsync(file);
                     
                 }
-                using (FileStream file1 = new FileStream(webHostEnvironment.WebRootPath + path1, FileMode.Create))
+                if (formFile1 != null)
                 {
-                    await formFile1.CopyToAsync(file1);
+                    string path1 = $"/Img/Cars/{formFile1.FileName}";
+                    using (FileStream file1 = new FileStream(webHostEnvironment.WebRootPath + path1, FileMode.Create))
+                    {
+                        await formFile1.CopyToAsync(file1);
+                    }
+                    car.BigImagePath = path1;
+                }
+                else
+                {
+                    car.BigImagePath = "/Img/Cars/backgroundDetails.jpg";
                 }
                 car.ImagePath = path;
-                car.BigImagePath = path1;
                 context.Add(car);
                 context.Add(engine);
                 context.SaveChanges();
@@ -292,6 +343,22 @@ namespace CarShop.Controllers
             {
                 return View();
             }
+
         } 
+        [HttpPost]
+        public  async Task<IActionResult> ChangeBackgroundImage(Car car,IFormFile background)
+        {
+            Car car1 = context.Cars.Find(car.Id);
+
+            string path = $"/Img/Cars/{background.FileName}";
+            using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+            {
+                await background.CopyToAsync(file);
+            }
+            car1.BigImagePath = path;
+            await context.SaveChangesAsync();
+            return RedirectToAction("DetailsCar",car.Name, car.Id);
+
+        }
     }
 }

@@ -10,6 +10,7 @@ using CarShop.BL.ViewModel;
 using CarShop.BL.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Identity;
 
 namespace CarShop.Controllers
 {
@@ -20,23 +21,30 @@ namespace CarShop.Controllers
         ContextDb context;
 
         public Category Category { get; set; }
-
-        public HomeController(ILogger<HomeController> logger, ContextDb _context)
+        public readonly UserManager<User> userManager;
+        public HomeController(ILogger<HomeController> logger, ContextDb _context, UserManager<User> _userManager)
         {
             _logger = logger;
             context = _context;
+            userManager = _userManager;
         }
 
        
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Take(5);
-            ViewBag.X = context.Cars.Where(x => x.Category.Name == "XXXXX").Take(5);
+            ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Include(x=>x.CarLogo).Take(5);
+            ViewBag.X = context.Cars.Where(x => x.Category.Name == "Легкова").Include(x => x.CarLogo).Take(5);
+            User currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+            var basket = context.Baskets.FirstOrDefault(x => x.UserId == currentUser.Id);
+            //var cars = context.Cars.Where(x=>x.BasketCars == basket.BasketCars);
+            var basketCars = context.BasketCars.Include(x=>x.Car).Where(x => x.Basket == basket && x.InBasket == true).ToList();
+
+
+
             CarsViewModel carsViewModel = new CarsViewModel()
             {
                 Cars = context.Cars.ToList(),
-                
-                
+                Basket = basketCars                               
             };
             return View(carsViewModel);
         }

@@ -14,5 +14,8 @@ namespace CarShop.BL.ViewModel
         public SelectList Category { get; set; }
        public BasketCar BasketCar { get; set; }
         public Basket Basket { get; set; }
+
+        public IEnumerable<CarLogo> CarLogos { get; set; }
+
     }
 }

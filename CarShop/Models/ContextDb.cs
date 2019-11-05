@@ -40,5 +40,6 @@ namespace CarShop.Models
         public DbSet<Engine> Engines { get; set; }
         public DbSet<Basket> Baskets { get; set; }
         public DbSet<BasketCar> BasketCars { get; set; }
+        public DbSet<CarLogo> CarLogos { get; set; }
     }
 }

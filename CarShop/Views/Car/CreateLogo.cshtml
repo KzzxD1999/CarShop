@@ -1,0 +1,14 @@
+﻿@model CarShop.BL.Models.CarLogo
+<form asp-action="CreateLogo" asp-controller="Car" enctype="multipart/form-data" method="post">
+    <div>
+        <input type="text" asp-for="NameLogo" />
+    </div>
+    <div>
+        <input type="file" asp-for="Path" name="logo"/>
+    </div>
+    <div>
+        <input type="submit" value="Готово" />
+    </div>
+</form>
+
+<p>@Html.ValidationSummary(false)</p>

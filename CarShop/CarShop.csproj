@@ -14,6 +14,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191105193124_R1x.24.cs" />
+    <Compile Remove="Migrations\20191105193124_R1x.24.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MailKit" Version="2.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.CookiePolicy" Version="2.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
@@ -36,10 +41,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\Img\Cars\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\CarShop.BL\CarShop.BL.csproj" />
   </ItemGroup>
 
@@ -56,6 +57,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\Img\Cars\Logo\" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

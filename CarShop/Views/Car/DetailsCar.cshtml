@@ -1,39 +1,54 @@
 ﻿@model CarShop.BL.ViewModel.EditCarViewModel
 
+    <section>
+        <div class="details-image-main">
+            @if (User.IsInRole("Admin"))
+            {
+                <div class="chage-background">
+                    <form asp-controller="Car" asp-action="ChangeBackgroundImage" method="post" enctype="multipart/form-data">
+                        <input hidden asp-for="Car.Id"/>
+                        <input type="file" name="background">
+                        <input type="submit" value="змінити"/>
+                    </form>
+                </div>
+            }
+            <img src="@Model.Car.BigImagePath" />
+            
+        </div>
+        <h1>@Model.Car.Name</h1>
+        <img src="@Model.Car.ImagePath" width="250" height="250" alt="Alternate Text" />
 
-<h1>@Model.Car.Name</h1>
-<img src="@Model.Car.ImagePath" width="250" height="250" alt="Alternate Text" />
+        <h3>@Model.Engine.Name</h3>
 
-<h3>@Model.Engine.Name</h3>
-
-@if (User.Identity.IsAuthenticated)
-{
-
-
-@if (Model.BasketCar != null)
-{
-    <h3>Дана машина вже в корзині</h3>
-}
-else
-{
-
-<form asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">
-    
-
-    <div>
-        <h3>Кількість</h3>
-        <input asp-for="BasketCar.Count" value="1"/>
-    </div>
+        @if (User.Identity.IsAuthenticated)
+        {
 
 
-    <input type="submit" value="Додати" />
+            @if (Model.BasketCar != null)
+            {
+                <h3>Дана машина вже в корзині</h3>
+            }
+            else
+            {
 
-</form>
-        
-}
-}
-else
-{
-    <h3>Для того щоб добаваити товар в корзину, увійдіть</h3>
-}
+                <form asp-action="AddCar" asp-controller="Basket" asp-route-id="@Model.Car.Id">
 
+
+                    <div>
+                        <h3>Кількість</h3>
+                        <input asp-for="BasketCar.Count" value="1" />
+                    </div>
+
+
+                    <input type="submit" value="Додати" />
+
+                </form>
+
+            }
+        }
+        else
+        {
+            <h3>Для того щоб добаваити товар в корзину, увійдіть</h3>
+        }
+
+    </section>

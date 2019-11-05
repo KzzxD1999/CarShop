@@ -27,7 +27,8 @@ namespace CarShop.BL.Models
 
         //  public int BasketId { get; set; }
         //  public Basket Basket { get; set; }
-
+        public int CarLogoId { get; set; }
+        public CarLogo CarLogo { get; set; }
         public List<BasketCar> BasketCars { get; set; }
 
 

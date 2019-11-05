@@ -40,16 +40,19 @@ namespace CarShop.Controllers
         {
             if (ModelState.IsValid)
             {
-                string path = "/Img/Avatar/" + avatar.FileName;
-                using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                string path = "";
+                if (avatar !=null)
                 {
-                    await avatar.CopyToAsync(file);
+                    path = "/Img/Avatar/" + avatar.FileName;
+                    using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await avatar.CopyToAsync(file);
+                    }
                 }
-
-
-
-
-
+                else
+                {
+                    path = "Img/Avatar/avatar.jpg";
+                }
 
                 User user = new User()
                 {
