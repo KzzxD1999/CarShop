@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace CarShop.Components
 {
-    public class UserDataViewComponent : ViewComponent
+    public class UserAvatarViewComponent : ViewComponent
     {
         public User CurrentUser { get; set; }
         public readonly UserManager<User> userManager;
 
-        public UserDataViewComponent(UserManager<User> _userManager)
+        public UserAvatarViewComponent(UserManager<User> _userManager)
         {
             userManager = _userManager;
         }
@@ -21,9 +21,15 @@ namespace CarShop.Components
         public string Invoke()
         {
             CurrentUser = userManager.FindByNameAsync(User.Identity.Name).Result;
-           
 
-            return CurrentUser.Avatar;
+            if (CurrentUser.Avatar != null)
+            {
+                return CurrentUser.Avatar;
+            }
+            else
+            {
+                return "/Img/Avatar/avatar.jpg";
+            }
 
         }
 

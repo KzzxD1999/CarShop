@@ -4,14 +4,16 @@ using CarShop.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CarShop.Migrations
 {
     [DbContext(typeof(ContextDb))]
-    partial class ContextDbModelSnapshot : ModelSnapshot
+    [Migration("20191111184434_D")]
+    partial class D
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -84,6 +86,9 @@ namespace CarShop.Migrations
                     b.Property<int>("Color")
                         .HasColumnType("int");
 
+                    b.Property<int>("DescriptionId")
+                        .HasColumnType("int");
+
                     b.Property<int>("EngineId")
                         .HasColumnType("int");
 
@@ -119,6 +124,8 @@ namespace CarShop.Migrations
                     b.HasIndex("CarLogoId");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("DescriptionId");
 
                     b.HasIndex("EngineId");
 
@@ -166,12 +173,6 @@ namespace CarShop.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CarId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsShown")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
@@ -182,8 +183,6 @@ namespace CarShop.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("CarId");
 
                     b.ToTable("Descriptions");
                 });
@@ -451,18 +450,15 @@ namespace CarShop.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("CarShop.BL.Models.Description", "Description")
+                        .WithMany("Cars")
+                        .HasForeignKey("DescriptionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("CarShop.BL.Models.Engine", "Engine")
                         .WithMany()
                         .HasForeignKey("EngineId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("CarShop.BL.Models.Description", b =>
-                {
-                    b.HasOne("CarShop.BL.Models.Car", "Car")
-                        .WithMany("Descriptions")
-                        .HasForeignKey("CarId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

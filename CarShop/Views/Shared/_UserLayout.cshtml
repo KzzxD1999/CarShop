@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Адмін панель</title>
     <link href="~/css/AdminPanel.css" rel="stylesheet" />
+    <link href="~/css/image-picker.css" rel="stylesheet" />
+    <script src="https://cdn.tiny.cloud/1/pwafratzk0d5wb6xv7t31uocy237wmu4mi1lj1js7b2cdmct/tinymce/5/tinymce.min.js"></script>
+    <script>tinymce.init({
+   selector: 'textarea',
+   plugins: 'a11ychecker advcode casechange formatpainter linkchecker lists checklist mediaembed pageembed permanentpen powerpaste tinycomments tinydrive tinymcespellchecker',
+   toolbar: 'a11ycheck addcomment showcomments casechange checklist code formatpainter insertfile pageembed permanentpen',
+  
+    toolbar_drawer: 'floating',
+   tinycomments_mode: 'embedded',
+   tinycomments_author: 'Roman Tulchak'
+});</script>
 </head>
 <body>
     <div class="grid">
@@ -18,6 +29,7 @@
                     <li><a asp-action="CreateCategory" asp-controller="Car">Створити категорію</a></li>
                     <li><a asp-action="CreateCar" asp-controller="Car">Додати машину</a></li>
                     <li><a asp-action="CreateLogo" asp-controller="Car">Додати Логотип</a></li>
+                    <li><a asp-action="AllLogos" asp-controller="Car">Всі логотипи</a></li>
                     <li><a asp-action="CreateUser" asp-controller="Users">Додати користувача</a></li>
                     <li><a asp-action="CreateRole" asp-controller="Roles">Додати роль</a></li>
                     <li><a asp-action="Index" asp-controller="Roles">Всі ролі</a></li>
@@ -31,6 +43,12 @@
         <footer>@DateTime.Now - Зараз</footer>
     </div>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/image-picker.min.js"></script>
+    <script src="~/js/imagesloaded.pkgd.min.js"></script>
+    <script src="~/js/masonry.pkgd.min.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

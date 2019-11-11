@@ -8,35 +8,46 @@
 
         <div>
             <h2>Назва машини</h2>
-            <input type="text" name="Name" />
+            <input type="text" asp-for="Car.Name" />
+            <span asp-validation-for="Car.Name"></span>
         </div>
 
         <div>
             <h2>Назва машини</h2>
-            <textarea name="Text"></textarea>
+            <textarea asp-for="Car.Text"></textarea>
+
+            <span asp-validation-for="Car.Text"></span>
         </div>
+          
+
         <div>
-            <select name="CategoryId">
+            <select asp-for="Car.CategoryId">
                 @foreach (var item in Model.Categories)
                 {
                     <option value="@item.Id">@item.Name</option>
                 }
 
             </select>
+
+            <span asp-validation-for="Car.CategoryId"></span>
         </div>
         <div>
-            <select name="CarLogoId">
+            <select class="image-picker" id="selectImage" asp-for="Car.CarLogoId">
                 @foreach (var item in Model.CarLogos)
                 {
-                    <option value="@item.Id">@item.NameLogo</option>
+                    <option data-img-src="@item.Path" value="@item.Id">@item.NameLogo</option>
                 }
 
             </select>
+
+            <span asp-validation-for="Car.CarLogoId"></span>
         </div>
 
         <div>
             <h2>Вага машини</h2>
-            <input type="number" name="Weight" />
+            <input type="number" asp-for="Car.Weight" />
+
+            <span asp-validation-for="Car.Weight"></span>
         </div>
 
 
@@ -47,28 +58,40 @@
 
         <div>
             <h2>Висота машини</h2>
-            <input type="number" name="Height" />
+            <input type="number" asp-for="Car.Height" />
+
+            <span asp-validation-for="Car.Height"></span>
         </div>
         <div>
             <h2>Ширина машини</h2>
-            <input type="number" name="Width" />
+            <input type="number" asp-for="Car.Width" />
+
+            <span asp-validation-for="Car.Width"></span>
         </div>
         <div>
             <h2>Назва двигуна</h2>
             <input type="text" asp-for="Engine.Name" />
+
+            <span asp-validation-for="Engine.Name"></span>
         </div>
         <div>
             <h2>Кіньські сили</h2>
             <input type="number" asp-for="Engine.Horsepower" />
+
+            <span asp-validation-for="Engine.Horsepower"></span>
         </div>
         <div>
             <h2>Ціна</h2>
-            <input type="number" name="Price" />
+            <input type="number" asp-for="Car.Price" />
+
+            <span asp-validation-for="Car.Price"></span>
         </div>
 
         <div>
             <h2>Виберіть картинку</h2>
-            <input type="file" name="formFile" />
+            <input type="file" asp-for="Car.ImagePath" name="formFile" />
+
+            <span asp-validation-for="Car.ImagePath"></span>
         </div>
         <div>
             <h2>Виберіть задній фон</h2>
@@ -87,7 +110,26 @@
 
 @section Scripts{ 
     <script>
-       function handleFileSelect(evt) {
+
+    $(document).ready(function () {
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+
+        var $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded(function () {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+    });
+
+
+
+
+        function handleFileSelect(evt) {
     var files = evt.target.files; // FileList object
 
     // Loop through the FileList and render image files as thumbnails.

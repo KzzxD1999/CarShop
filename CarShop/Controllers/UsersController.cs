@@ -2,11 +2,14 @@
 using CarShop.BL.ViewModel;
 using CarShop.BL.ViewModel.UserViewModel;
 using CarShop.Models;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -16,18 +19,20 @@ namespace CarShop.Controllers
     {
         public readonly UserManager<User> userManager;
         private ContextDb contextDb;
+        private IWebHostEnvironment webHostEnvironment;
 
-        public UsersController(UserManager<User> _userManager, ContextDb _contextDb)
+        public UsersController(UserManager<User> _userManager, ContextDb _contextDb, IWebHostEnvironment _webHostEnvironment)
         {
             userManager = _userManager;
             contextDb = _contextDb;
+            webHostEnvironment = _webHostEnvironment;
         }
 
         [Route("users")]
         public async Task<IActionResult> Index(string name = null, int page = 1)
         {
             var currentUser = await userManager.FindByNameAsync(User.Identity.Name);
-            int pageCount = 1;
+            int pageCount = 15;
             //TODO:Пофіксити пошук
             IQueryable<User> user = null;
             List<User> items = null;
@@ -87,10 +92,26 @@ namespace CarShop.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> CreateUser(CreateUserViewModel createUserViewModel)
+        public async Task<IActionResult> CreateUser(CreateUserViewModel createUserViewModel, IFormFile avatar)
         {
             if (ModelState.IsValid)
             {
+
+                string path = "";
+                if(avatar != null)
+                {
+                    path = $"/Img/Avatar/{avatar.FileName}";
+                    using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await avatar.CopyToAsync(file);
+                    }
+                }
+                else
+                {
+                    path = $"/Img/Avatar/avatar.jpg";
+                }
+
+
                 User user = new User()
                 {
                     FirstName = createUserViewModel.FirstName,
@@ -98,6 +119,7 @@ namespace CarShop.Controllers
                     Age = createUserViewModel.Age,
                     Email = createUserViewModel.Email,
                     UserName = createUserViewModel.Email,
+                    Avatar = path,
                     Basket = new Basket()
 
                 };

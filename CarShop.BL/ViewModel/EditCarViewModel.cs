@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 
 namespace CarShop.BL.ViewModel
@@ -16,6 +17,7 @@ namespace CarShop.BL.ViewModel
         public Basket Basket { get; set; }
 
         public IEnumerable<CarLogo> CarLogos { get; set; }
-
+        public Description Description { get; set; }
+        public IEnumerable<Description> Descriptions { get; set; }
     }
 }

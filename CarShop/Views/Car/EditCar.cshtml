@@ -1,15 +1,19 @@
-﻿@model CarShop.BL.ViewModel.EditCarViewModel
+﻿@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+}
+
+@model CarShop.BL.ViewModel.EditCarViewModel
 
 
     <form asp-action="EditCar" asp-controller="Car" asp-route-id="@Model.Car.Id" enctype="multipart/form-data">
         <div>
-            <input hidden asp-for="Car.Id" value="@Model.Car.Id"/>
+            <input hidden asp-for="Car.Id" value="@Model.Car.Id" />
         </div>
         <div>
             <input asp-for="Car.Name" value="@Model.Car.Name" />
         </div>
         <div>
-            <input asp-for="Car.Text" value="@Model.Car.Text" />
+            <textarea asp-for="Car.Text" value="@Model.Car.Text"></textarea>
         </div>
         <div>
             <input asp-for="Car.Color" value="@Model.Car.Color" />
@@ -38,14 +42,24 @@
         </div>
         <select asp-for="Car.Category.Name" asp-items="@Model.Category">
         </select>
+        <div>
+            <select class="image-picker" id="selectImage" asp-for="Car.CarLogoId">
+                @foreach (var item in Model.CarLogos)
+                {
+                    <option data-img-src="@item.Path" value="@item.Id">@item.NameLogo</option>
+                }
 
+            </select>
+
+            <span asp-validation-for="Car.CarLogoId"></span>
+        </div>
         <div>
             <h3>Мала картинка</h3>
-            <img sr="@Model.Car.ImagePath" width="150" height="150" />
+            <img srс="@Model.Car.ImagePath" width="150" height="150" />
         </div>
         <div>
             <h3>Велика картинка</h3>
-            <img sr="@Model.Car.BigImagePath" width="150" height="150" />
+            <img srс="@Model.Car.BigImagePath" width="150" height="150" />
         </div>
 
         <div>
@@ -67,3 +81,23 @@
 
 
     </form>
+
+
+@section Scripts{ 
+    <script>
+        $(document).ready(function () {
+        $("#selectImage").imagepicker({
+            hide_select: true
+        });
+
+        var $container = $('.image_picker_selector');
+        // initialize
+        $container.imagesLoaded(function () {
+            $container.masonry({
+                columnWidth: 30,
+                itemSelector: '.thumbnail'
+            });
+        });
+    });
+    </script>
+}

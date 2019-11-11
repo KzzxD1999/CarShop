@@ -10,17 +10,25 @@ using Microsoft.EntityFrameworkCore;
 using CarShop.BL.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using CarShop.BL.Models;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Http;
 
 namespace CarShop.Controllers
 {
-   
-    public class AdminPanelController : Controller
+    class Us{
+            public string UserName { get; set; }
+    public string Password { get; set; }
+    public string FullName { get; set; }
+}
+public class AdminPanelController : Controller
     {
         ContextDb context;
 
-        public AdminPanelController(ContextDb _context)
+
+        public AdminPanelController(ContextDb _context, IConfiguration config)
         {
             context = _context;
+           
         }
        
         [Authorize]
@@ -38,6 +46,8 @@ namespace CarShop.Controllers
             //TODO: Chart.js
             return View(model);
         }
+
+        
 
     }
 }

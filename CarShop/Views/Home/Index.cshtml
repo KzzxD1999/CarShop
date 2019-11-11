@@ -12,81 +12,47 @@
 }
 else
 {
-
-    @if (ViewBag.Cabrilets != null)
-    {
 <section class="all-cars">
-    <h1>Кабріолети</h1>
-    <hr />
     <div class="grid-category">
-
-        @foreach (var item in ViewBag.Cabrilets)
+        @foreach (var item in Model.Cars)
         {
-            
-            
-        <div class="item-car">
-            <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
-                <img src="@item.ImagePath" class="car-img" />
-                <h4 class="car-name">@item.Name</h4>
-                <p class="car-price">@item.Price</p>
-
-            </a>
-            <p><i><a href="#">Конфігурація</a></i></p>
-            <p><i><a href="#">Детальніше</a></i></p>
-        </div>
-    }
-    </div>
-</section>
-    }
-
-    @if (ViewBag.X != null)
-    {
-        <section class="all-cars">
-            <h1>X</h1>
-            <hr />
-            <div class="grid-category">
-                @foreach (var item in ViewBag.X)
-                {
-
-
-                    @*@foreach (var item1 in Model.Basket)
-             {
-                 @if (item1.CarId == item.Id)
-                 {
-                 <h3>В корзині</h3>
-                }
-            }*@
-                    <div class="item-car">
-                        <div>
-                            <div>
-                                <img style="height:auto; width:50%" src="@item.CarLogo.Path" />
-                            </div>
-                            <div>
-                                <h4>@item.CarLogo.NameLogo</h4>
-                            </div>
-                        </div>
-                        <hr />
-                        <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
-                            <img src="@item.ImagePath" class="car-img" />
-                            <h4 class="car-name">@item.Name</h4>
-                            <p class="car-price">@item.Price</p>
-                            @foreach (var item1 in Model.Basket)
-                            {
-                                if (item.Id == item1.CarId)
-                                {
-                                    <h3>В корзині</h3>
-                                }
-                            }
-                        </a>
-                        <p><i><a href="#">Конфігурація</a></i></p>
-                        <p><i><a href="#">Детальніше</a></i></p>
+            <div class="item-car">
+                <div>
+                    <div>
+                        <img style="height:auto; width:50%" src="@item.CarLogo.Path" />
                     </div>
-                  
-          }
+                    <div>
+                        <h4>@item.CarLogo.NameLogo</h4>
+                    </div>
+                </div>
+                <hr />
+                <a asp-controller="Car" asp-action="DetailsCar" asp-route-id="@item.Id" asp-route-name="@item.Name">
+                    <img src="@item.ImagePath" class="car-img" />
+                    <h4 class="car-name">@item.Name</h4>
+                    <p class="car-price">@item.Price</p>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        @foreach (var item1 in Model.Basket)
+                        {
+                            if (item.Id == item1.CarId)
+                            {
+                                <h3>В корзині</h3>
+                            }
+                        }
+                    }
+                </a>
+                <p><i><a href="#">Конфігурація</a></i></p>
+                <p><i><a href="#">Детальніше</a></i></p>
             </div>
-           
-        </section>
 
-    }
+
+
+
+        }
+    </div>
+
+</section>
+
+
 
 }

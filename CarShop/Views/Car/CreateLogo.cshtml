@@ -1,14 +1,43 @@
 ﻿@model CarShop.BL.Models.CarLogo
-<form asp-action="CreateLogo" asp-controller="Car" enctype="multipart/form-data" method="post">
+@{
+    Layout = "~/Views/Shared/_UserLayout.cshtml";
+
+}
+<form asp-action="CreateLogo"  asp-controller="Car" enctype="multipart/form-data" method="post">
+    <div asp-validation-summary="ModelOnly"></div>
     <div>
-        <input type="text" asp-for="NameLogo" />
+        <input type="text"  asp-for="NameLogo" />
+        <span asp-validation-for="NameLogo"></span>
     </div>
     <div>
-        <input type="file" asp-for="Path" name="logo"/>
+
+        <input id="file" class="inputfile" required type="file" asp-for="Path" name="logo" />
+        <label for="file"><span>Файл</span></label>
+        <span asp-validation-for="Path"></span>
     </div>
     <div>
         <input type="submit" value="Готово" />
     </div>
 </form>
 
-<p>@Html.ValidationSummary(false)</p>
+@section Scripts{
+    <script>
+        let inputs = document.querySelectorAll('.inputfile');
+        Array.prototype.forEach.call(inputs, function(input){
+  var label	 = input.nextElementSibling,
+      labelVal = label.innerHTML;
+  input.addEventListener('change', function(e){
+    var fileName = '';
+    if( this.files && this.files.length > 1 )
+      fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+    else
+      fileName = e.target.value.split( '\\' ).pop();
+		if( fileName )
+      label.querySelector( 'span' ).innerHTML = fileName;
+    else
+      label.innerHTML = labelVal;
+	});
+});
+    </script>
+
+}

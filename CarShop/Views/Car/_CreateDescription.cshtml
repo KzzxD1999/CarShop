@@ -1,0 +1,29 @@
+﻿@model EditCarViewModel
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+    <form asp-action="CreateDescription" asp-controller="Car" method="post" enctype="multipart/form-data">
+        <input hidden asp-for="Description.CarId" value="@Model.Car.Id"/>
+        <div>
+            <h4>Name</h4>
+            <input asp-for="Description.Name" />
+        </div>
+        <div>
+            <h4>Text</h4>
+            <input asp-for="Description.Text" />
+        </div>
+        <div>
+            <h4>IsShown</h4>
+            <input asp-for="Description.IsShown" />
+        </div>
+        <div>
+            <h4>Img</h4>
+            <input type="file" name="img" />
+        </div>
+        <div>
+            <input type="submit" value="Готово"/>
+        </div>
+    </form>

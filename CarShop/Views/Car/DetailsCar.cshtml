@@ -19,7 +19,7 @@
         <img src="@Model.Car.ImagePath" width="250" height="250" alt="Alternate Text" />
 
         <h3>@Model.Engine.Name</h3>
-
+        @Html.Raw(Model.Car.Text)
         @if (User.Identity.IsAuthenticated)
         {
 
@@ -50,5 +50,20 @@
         {
             <h3>Для того щоб добаваити товар в корзину, увійдіть</h3>
         }
+    <h1>TE CECHY WYKRACZAJĄ POZA WSZELKIE OCZEKIWANIA.</h1>
+    <h4>Odkryj stylistykę, dynamikę jazdy i najlepsze rozwiązania techniczne BMW @Model.Car.Name</h4>
 
+        <hr />
+        <div>
+            @foreach (var item in Model.Descriptions)
+            {
+                <h3>@item.Name</h3>
+            }
+        </div>
+        <hr />
+
+        @if (User.IsInRole("Admin"))
+        {
+            <partial name="_CreateDescription"/>
+        }
     </section>

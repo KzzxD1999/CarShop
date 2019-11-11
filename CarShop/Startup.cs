@@ -33,7 +33,7 @@ namespace CarShop
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<ContextDb>(x => 
             x.UseSqlServer(connectionString));
-
+    
             services.AddIdentity<User, IdentityRole>(p =>
             {
                 p.Password.RequireNonAlphanumeric = false;

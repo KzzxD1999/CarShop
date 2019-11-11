@@ -81,7 +81,30 @@ namespace CarShop.Controllers
                 return View();
             }
         }
+        [HttpGet]
+        public IActionResult AllLogos()
+        {
 
+            List<CarLogo> carLogos = context.CarLogos.ToList();
+            return View(carLogos);
+        }
+        
+        public IActionResult DeleteLogo(int? id, string name)
+        {
+            if (id != null && name !=null) {
+                CarLogo carLogo = context.CarLogos.FirstOrDefault(x => x.Id == id && x.NameLogo == name);
+                if (carLogo != null)
+                {
+                   
+                    context.CarLogos.Remove(carLogo);
+                    
+                    context.SaveChanges();
+                    return RedirectToAction("AllLogos");
+                }
+            }
+            return NotFound();
+               
+        }
         [HttpGet]
         public IActionResult CreateLogo()
         {
@@ -91,31 +114,35 @@ namespace CarShop.Controllers
         public async Task<IActionResult> CreateLogo(CarLogo carLogo, IFormFile logo)
         {
             CarLogo carLogo1 = context.CarLogos.FirstOrDefault(x => x.NameLogo == carLogo.NameLogo);
-            if (ModelState.IsValid && carLogo1 == null)
+            if (ModelState.IsValid)
             {
-                
-                if(logo != null)
+                if (carLogo1 == null)
                 {
-                    string path = $"/Img/Cars/Logo/{logo.FileName}";
-                    using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                    if (logo != null)
                     {
-                        await logo.CopyToAsync(file);
+                        string path = $"/Img/Cars/Logo/{logo.FileName}";
+                        using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                        {
+                            await logo.CopyToAsync(file);
+                        }
+                        carLogo.Path = path;
                     }
-                    carLogo.Path = path;
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "Картинка обов'язкова");
+                        return View();
+                    }
                 }
                 else
                 {
-                    //TODO: Додати лого за замовчуванням
+                    ModelState.AddModelError(string.Empty, "Даний логотип вже існує");
+
                 }
 
                 context.CarLogos.Add(carLogo);
                 context.SaveChanges();
                 return RedirectToAction("Index", "AdminPanel");
 
-            }
-            else
-            {
-                ModelState.AddModelError(string.Empty, "Даний логотип вже існує");
             }
             return View();
         }
@@ -126,6 +153,7 @@ namespace CarShop.Controllers
             EditCarViewModel model = new EditCarViewModel();
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
+            model.Descriptions = context.Descriptions.Where(x => x.CarId == id).ToList();
             if (User.Identity.Name !=null)
             {
                 CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
@@ -173,7 +201,26 @@ namespace CarShop.Controllers
 
 
         }
+        public IActionResult CreateDescription()
+        {
 
+            return PartialView("_CreateDescription");
+        }
+
+        [HttpPost]
+        public IActionResult CreateDescription(Car car, Description description, IFormFile img)
+        {
+            Car car1 = context.Cars.FirstOrDefault(x => x.Id == description.CarId);
+
+            context.Descriptions.Add(description);
+            context.SaveChanges();
+
+            context.Cars.Update(car1);
+            context.SaveChanges();
+            return RedirectToAction("Index");
+            
+
+        }
         [HttpGet]
         public IActionResult EditCategory(int? id)
         {
@@ -217,8 +264,9 @@ namespace CarShop.Controllers
                     {
                         Car = car,
                         Engine = engine,
-                        Category = new SelectList(categories,"Name","Name", car.Category),
+                        Category = new SelectList(categories, "Name", "Name", car.Category),
                         Categories = categories,
+                        CarLogos = context.CarLogos.ToList()
                     };
 
                     return View(model);
@@ -272,9 +320,7 @@ namespace CarShop.Controllers
                 c.Price = car.Price;
                 c.Weight = car.Weight;
                 c.Width = car.Width;
-                
-                //TODO: зробити нориальне збереження
-                //context.Entry(car).State = EntityState.Modified;
+                c.CarLogoId = car.CarLogoId;
 
 
                
@@ -288,6 +334,51 @@ namespace CarShop.Controllers
                 return View();
             }
         }
+
+        public IActionResult EditLogo(int? id, string name)
+        {
+            if(id !=null && name != null)
+            {
+                CarLogo carLogo = context.CarLogos.FirstOrDefault(x => x.Id == id && x.NameLogo == name);
+                if (carLogo !=null)
+                {
+                    return View(carLogo);
+                }
+
+            }
+            return NotFound();
+        }
+        [HttpPost]
+        public async Task<IActionResult> EditLogo(CarLogo carLogo, IFormFile logo)
+        {
+            if (ModelState.IsValid)
+            {
+                CarLogo carLogoToE = context.CarLogos.Find(carLogo.Id);
+
+                if (logo != null)
+                {
+                    string path = $"/Img/Cars/Logo/{logo.FileName}";
+                    using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                    {
+                        await logo.CopyToAsync(file);
+                    }
+                    carLogo.Path = path;
+                }
+                else
+                {
+                    int id = carLogo.Id;
+                    carLogo.Path = carLogoToE.Path;
+                    context.Entry(carLogoToE).State = EntityState.Deleted;
+                }
+                   context.CarLogos.Update(carLogo);
+                    context.SaveChanges();
+                    return RedirectToAction("AllLogos");
+                
+
+            }
+            return View();
+        }
+
         public IActionResult CreateCar()
         {
             EditCarViewModel model = new EditCarViewModel()
@@ -306,8 +397,6 @@ namespace CarShop.Controllers
             }
          }
         //TODO: редагування машини
-        //TODO: Створення користувача - додавати фото
-        //TODO: Видалення, редагування  
         [HttpPost]
         public async Task<IActionResult> CreateCar(Car car,Engine engine, IFormFile formFile, IFormFile formFile1)
         {
@@ -334,8 +423,10 @@ namespace CarShop.Controllers
                     car.BigImagePath = "/Img/Cars/backgroundDetails.jpg";
                 }
                 car.ImagePath = path;
-                context.Add(car);
                 context.Add(engine);
+                context.SaveChanges();
+                car.Engine = engine;
+                context.Add(car);
                 context.SaveChanges();
                 return RedirectToRoute("https://localhost:44335/AdminPanel");
             }

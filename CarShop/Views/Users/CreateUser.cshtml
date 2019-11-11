@@ -2,27 +2,36 @@
 @{ 
     Layout = "~/Views/Shared/_UserLayout.cshtml";
 }
-<form asp-action="CreateUser" asp-controller="Users">
+<form asp-action="CreateUser" asp-controller="Users" enctype="multipart/form-data">
     <div>
         <h3>Ім'я</h3>
         <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
     </div>
     <div>
         <h3>Прізвище</h3>
         <input asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
     </div>
     <div>
         <h3>Email</h3>
         <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
     </div>
 
     <div>
         <h3>Age</h3>
         <input asp-for="Age" />
+        <span asp-validation-for="Age"></span>
     </div>
     <div>
         <h3>Password</h3>
-        <input asp-for="Password" />
+        <input asp-for="Password" type="password"/>
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <h3>Avatar</h3>
+        <input type="file" name="avatar"/>
     </div>
 
     <div>

@@ -1,0 +1,22 @@
+﻿@model CarShop.BL.Models.CarLogo
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+
+    <form asp-action="EditLogo" asp-controller="Car" method="post" enctype="multipart/form-data">
+        <div>
+            <h4>Name</h4>
+            <input value="@Model.NameLogo" asp-for="NameLogo" />
+        </div>
+        <div>
+            <h4>Image</h4>
+            <input type="file" asp-for="Path" name="logo" />
+            <img src="@Model.Path" width="200" height="200"/>
+        </div>
+        <div>
+            <input type="submit" value="Змінити"/>
+        </div>
+
+    </form>

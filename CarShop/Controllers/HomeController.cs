@@ -34,16 +34,21 @@ namespace CarShop.Controllers
         {
             ViewBag.Cabrilets = context.Cars.Where(x => x.Category.Name == "Кабріолет").Include(x=>x.CarLogo).Take(5);
             ViewBag.X = context.Cars.Where(x => x.Category.Name == "Легкова").Include(x => x.CarLogo).Take(5);
-            User currentUser = await userManager.FindByNameAsync(User.Identity.Name);
-            var basket = context.Baskets.FirstOrDefault(x => x.UserId == currentUser.Id);
-            //var cars = context.Cars.Where(x=>x.BasketCars == basket.BasketCars);
-            var basketCars = context.BasketCars.Include(x=>x.Car).Where(x => x.Basket == basket && x.InBasket == true).ToList();
+            List<BasketCar> basketCars = null;
+            if (User.Identity.IsAuthenticated)
+            {
+                User currentUser = await userManager.FindByNameAsync(User.Identity.Name);
+                var basket = context.Baskets.FirstOrDefault(x => x.UserId == currentUser.Id);
+                //var cars = context.Cars.Where(x=>x.BasketCars == basket.BasketCars);
+                basketCars = context.BasketCars.Include(x => x.Car).Where(x => x.Basket == basket && x.InBasket == true).ToList();
 
+            }
+           
 
 
             CarsViewModel carsViewModel = new CarsViewModel()
             {
-                Cars = context.Cars.ToList(),
+                Cars = context.Cars.Include(x=>x.CarLogo).ToList(),
                 Basket = basketCars                               
             };
             return View(carsViewModel);

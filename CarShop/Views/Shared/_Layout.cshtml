@@ -6,6 +6,7 @@
     <title>@ViewData["Title"] - CarShop</title>
     @*<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />*@
     <link rel="stylesheet" href="~/css/site.css" />
+    <link href="~/css/image-picker.css" rel="stylesheet" />
     <script src="https://kit.fontawesome.com/7444b00755.js" crossorigin="anonymous"></script>
 </head>
 <body>
@@ -22,10 +23,7 @@
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-controller="Car" asp-action="Index">Машини</a>
                     </li>
-                    <li>
-                        <img src=""/>
-                        <h3>@User.Identity.Name</h3>
-                    </li>
+              
                 </ul>
                 <ul class="navbar-nav">
                     @if (User.Identity.IsAuthenticated)
@@ -38,6 +36,9 @@
                             <form asp-action="Logout" asp-controller="Account" method="post">
                                 <input type="submit" value="Вийти" onclick="SessionDelete()"/>
                             </form>
+                        </li>
+                        <li class="nav-item">
+                            <img src="@await Component.InvokeAsync("UserAvatar")" alt="Alternate Text" width="50" height="50" style="border-radius:50%;" />
                         </li>
 
                         if (User.IsInRole("Admin"))
@@ -90,6 +91,8 @@
     @*
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/image-picker.min.js"></script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>
