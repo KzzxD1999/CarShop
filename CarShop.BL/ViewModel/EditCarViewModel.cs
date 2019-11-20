@@ -19,5 +19,9 @@ namespace CarShop.BL.ViewModel
         public IEnumerable<CarLogo> CarLogos { get; set; }
         public Description Description { get; set; }
         public IEnumerable<Description> Descriptions { get; set; }
+
+        public bool IsError { get; set; }
+        public string ErrorMessage { get; set; }
+        public bool IsSuccess { get; set; }
     }
 }

@@ -25,6 +25,8 @@ namespace CarShop.Controllers
         public List<User> Users { get; set; }
         public Category Category { get; set; }
         public User CurrentUser { get; set; }
+
+        public string ErrorMessages { get; set; }
         public CarController(ContextDb _context, IWebHostEnvironment _webHostEnvironment, UserManager<User> _userManager)
         {
             context = _context;
@@ -147,6 +149,7 @@ namespace CarShop.Controllers
             return View();
         }
 
+        
         public async Task<IActionResult> DetailsCar(string name, int id)
         {
             //User user = null;
@@ -154,6 +157,7 @@ namespace CarShop.Controllers
             model.Car = context.Cars.FirstOrDefault(x => x.Id == id && x.Name == name);
             model.Engine = context.Engines.FirstOrDefault(x => x.Id == model.Car.EngineId);
             model.Descriptions = context.Descriptions.Where(x => x.CarId == id).ToList();
+            bool IsMessages = TempData["IsError"] as bool? ?? false;
             if (User.Identity.Name !=null)
             {
                 CurrentUser = await userManager.FindByNameAsync(User.Identity.Name);
@@ -161,6 +165,24 @@ namespace CarShop.Controllers
                 model.BasketCar = context.BasketCars.Include(x => x.Car).Where(x => x.BasketId == model.Basket.Id && x.InBasket == true).FirstOrDefault(x => x.CarId == id);
 
             }
+            if (IsMessages)
+            {
+                bool isError = TempData["error"] as bool? ?? false;
+                bool isSuccess = TempData["success"] as bool? ?? false;
+                if (isError)
+                {
+                    model.IsError = true;
+                    model.ErrorMessage = TempData["msg"].ToString();
+
+                }
+                if (isSuccess)
+                {
+                    model.IsSuccess = true;
+                    model.ErrorMessage = TempData["msg"].ToString();
+                }
+
+            }
+       
             if (model.Car !=null)
             {
                 return View(model);
@@ -207,20 +229,73 @@ namespace CarShop.Controllers
             return PartialView("_CreateDescription");
         }
 
+        //TODO: Видаляти крапки з назви файлу
         [HttpPost]
-        public IActionResult CreateDescription(Car car, Description description, IFormFile img)
+        public async Task<IActionResult> CreateDescription(Description description, IFormFile img)
         {
-            Car car1 = context.Cars.FirstOrDefault(x => x.Id == description.CarId);
 
+            Car car1 = context.Cars.FirstOrDefault(x => x.Id == description.CarId);
+            
+            if (img != null)
+            {
+
+                string path = $"/Img/Cars/Description/{img.FileName}";
+                using (FileStream file = new FileStream(webHostEnvironment.WebRootPath + path, FileMode.Create))
+                {
+                    await img.CopyToAsync(file);
+                }
+                description.Path = path;
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Картинка обов'язкова");
+                return View();
+            }
             context.Descriptions.Add(description);
             context.SaveChanges();
-
             context.Cars.Update(car1);
             context.SaveChanges();
-            return RedirectToAction("Index");
-            
+
+            ShowMessages($"Було створено: {description.Name}", true);
+           
+            return RedirectToAction("DetailsCar", new { id = car1.Id, name = car1.Name });
+        }
+
+
+        [HttpGet]
+        public IActionResult DeleteDescription(int id, int idCar, string nameCar)
+        {
+            Description description = context.Descriptions.Find(id);
+            if(description != null)
+            {
+                context.Descriptions.Remove(description);
+                context.SaveChanges();
+                ShowMessages($"{description.Name}: було видалено", true);
+                return RedirectToAction("DetailsCar", new { id = idCar, name = nameCar});
+            }
+            else
+            {
+                ShowMessages($"Не правильний ID",false);
+                return RedirectToAction("DetailsCar", new { id = idCar, name = nameCar }); ;
+            }
+        }
+
+        private void ShowMessages(string messages, bool isSuccess)
+        {
+            TempData["msg"] = $"{messages}";
+            TempData["IsError"] = true;
+            if(isSuccess == true)
+            {
+                TempData["success"] = true;
+            }
+            else
+            {
+
+                TempData["error"] = true;
+            }
 
         }
+
         [HttpGet]
         public IActionResult EditCategory(int? id)
         {

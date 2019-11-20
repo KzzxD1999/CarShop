@@ -54,12 +54,25 @@
     <h4>Odkryj stylistykę, dynamikę jazdy i najlepsze rozwiązania techniczne BMW @Model.Car.Name</h4>
 
         <hr />
-        <div>
-            @foreach (var item in Model.Descriptions)
-            {
-                <h3>@item.Name</h3>
-            }
-        </div>
+
+            <div class="grid-style">
+                @foreach (var item in Model.Descriptions)
+                {
+                    if (item.IsShown)
+                    {
+                <div class="style-item">
+                    <div class="item">
+                        <h1 class="">@item.Name</h1>
+                        <img src="@item.Path" height="200" width="200" />
+                    </div>
+                </div>
+                @if (User.IsInRole("Admin"))
+                {
+                <a asp-action="DeleteDescription" asp-controller="Car" asp-route-idCar="@item.CarId" asp-route-nameCar="@item.Car.Name"  asp-route-id="@item.Id">Видалити</a>
+                    }
+                }
+                }
+            </div>
         <hr />
 
         @if (User.IsInRole("Admin"))
@@ -67,3 +80,22 @@
             <partial name="_CreateDescription"/>
         }
     </section>
+
+<div class="error-msg" id="error1">
+    <h1>@Model.ErrorMessage</h1>
+</div>
+
+
+
+@section Scripts{
+
+    <script>
+
+        let isError = '@Model.IsError';
+        let isSuccess = '@Model.IsSuccess'
+        let errorMessage = '@Model.ErrorMessage';
+        ShowError(isError, isSuccess, errorMessage);
+        
+    </script>
+
+}
